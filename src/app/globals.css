@@ -1,0 +1,96 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@theme {
+  --color-background: #ffffff;
+  --color-foreground: #0a0a0a;
+
+  /* Neutral scale */
+  --color-ink: #0a0a0a;
+  --color-ink-soft: #1a1d29;
+  --color-ink-muted: #2a2f3d;
+  --color-muted: #6b7280;
+  --color-muted-strong: #4b5563;
+  --color-muted-soft: #f4f4f5;
+  --color-border: #e5e7eb;
+  --color-border-soft: #f1f3f5;
+
+  /* Brand mint scale */
+  --color-mint: #3fe0c7;
+  --color-mint-strong: #22cbaf;
+  --color-mint-deep: #0fa089;
+  --color-mint-dark: #066c5d;
+  --color-mint-soft: #c5f5eb;
+  --color-mint-pale: #e6faf5;
+  --color-mint-mist: #f4fbf9;
+
+  /* Warm accent — sparingly */
+  --color-cream: #fff7d6;
+  --color-cream-deep: #fde68a;
+
+  /* Surfaces */
+  --color-card: #ffffff;
+  --color-surface: #f7faf9;
+  --color-surface-strong: #eef4f2;
+
+  --font-sans: var(--font-pretendard), "Pretendard Variable", Pretendard,
+    -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo",
+    "Noto Sans KR", "Malgun Gothic", sans-serif;
+
+  --radius-card: 20px;
+  --radius-pill: 999px;
+}
+
+html,
+body {
+  background: var(--color-background);
+  color: var(--color-foreground);
+}
+
+body {
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  word-break: keep-all;
+  overflow-wrap: anywhere;
+}
+
+::selection {
+  background: var(--color-mint);
+  color: var(--color-ink);
+}
+
+/* Brand mark utility — tight tracking + black weight + mint period */
+.brand-mark {
+  font-family: var(--font-sans);
+  font-weight: 900;
+  letter-spacing: -0.055em;
+  font-feature-settings: "ss03";
+  line-height: 1;
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.brand-mark > .brand-dot {
+  color: var(--color-mint);
+  display: inline-block;
+  margin-left: -0.05em;
+}
+
+/* Marquee */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 50s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .animate-marquee { animation: none; }
+}
+
+html { scroll-behavior: smooth; scroll-padding-top: 88px; }
+
+@media (max-width: 640px) {
+  body { font-size: 15px; }
+}
