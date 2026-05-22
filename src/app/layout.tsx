@@ -64,6 +64,9 @@ export const metadata: Metadata = {
     },
   },
   category: "technology",
+  verification: siteConfig.googleSiteVerification
+    ? { google: siteConfig.googleSiteVerification }
+    : undefined,
 };
 
 export const viewport: Viewport = {

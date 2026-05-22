@@ -1,4 +1,5 @@
 import { cn } from "@/shared/lib";
+import { siteConfig } from "@/shared/config";
 
 type MarkSize = "xs" | "sm" | "md" | "lg" | "xl" | "display";
 
@@ -40,6 +41,10 @@ export function BrandMark({
   className,
   as: Comp = "span",
 }: BrandMarkProps) {
+  // 마침표는 Google 사이트 인증 메타태그의 존재 신호다.
+  // 토큰이 있으면(=메타태그 주입됨) "int.", 없으면 "int". 둘은 항상 함께 움직인다.
+  const verified = Boolean(siteConfig.googleSiteVerification);
+
   return (
     <Comp
       className={cn(
@@ -48,10 +53,10 @@ export function BrandMark({
         toneText[tone],
         className
       )}
-      aria-label={`${label}.`}
+      aria-label={verified ? `${label}.` : label}
     >
       {label}
-      <span className="brand-dot">.</span>
+      {verified ? <span className="brand-dot">.</span> : null}
     </Comp>
   );
 }

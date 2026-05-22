@@ -9,6 +9,10 @@ export const siteConfig = {
   url: "https://intcorp.ai",
   ogImage: "/og.png",
   locale: "ko_KR",
+  // Google Search Console 사이트 인증 토큰. 단일 진실 공급원.
+  // 값이 있으면 layout이 <meta name="google-site-verification">를 주입하고,
+  // BrandMark의 마침표(.)가 함께 나타난다. 비우면 메타태그도 마침표도 사라진다.
+  googleSiteVerification: "hWJzdhKKd5QZYa_sGfpwHkjdbHuUbuquMjIlH7yDBKQ",
   keywords: [
     "인트",
     "(주)인트",
