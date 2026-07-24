@@ -1,40 +1,26 @@
 import { ClientLogo, type Client } from "@/entities/client";
-import { cn } from "@/shared/lib";
 
-interface LogoMarqueeProps {
-  clients: readonly Client[];
-  direction?: "left" | "right";
-  className?: string;
-}
+/**
+ * 로고 무한 마퀴. 목록을 두 번 렌더하고 -50%까지 이동시켜 이음매를 없앤다.
+ * 애니메이션은 CSS keyframe(globals.css)이라 서버 컴포넌트로 둘 수 있다.
+ * prefers-reduced-motion에서는 전역 규칙이 애니메이션을 멈춘다.
+ */
+export function LogoMarquee({ items }: { items: readonly Client[] }) {
+  const doubled = [...items, ...items];
 
-export function LogoMarquee({
-  clients,
-  direction = "left",
-  className,
-}: LogoMarqueeProps) {
-  const doubled = [...clients, ...clients];
   return (
     <div
-      className={cn(
-        "relative w-full overflow-hidden",
-        "[mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]",
-        className
-      )}
+      className="group relative flex w-full overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]"
+      role="img"
+      aria-label={`고객사 로고: ${items.map((i) => i.name).join(", ")}`}
     >
-      <div
-        className="animate-marquee flex w-max gap-4"
-        style={{
-          animationDirection: direction === "right" ? "reverse" : "normal",
-        }}
-      >
-        {doubled.map((c, idx) => (
-          <ClientLogo
-            key={`${c.name}-${idx}`}
-            client={c}
-            variant="pill"
-          />
+      <ul className="flex w-max animate-marquee items-center gap-14 pr-14 group-hover:[animation-play-state:paused] sm:gap-20 sm:pr-20">
+        {doubled.map((client, idx) => (
+          <li key={`${client.name}-${idx}`} aria-hidden={idx >= items.length}>
+            <ClientLogo client={client} />
+          </li>
         ))}
-      </div>
+      </ul>
     </div>
   );
 }

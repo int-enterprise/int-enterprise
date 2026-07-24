@@ -1,22 +1,27 @@
 import { buildMetadata, BreadcrumbJsonLd } from "@/shared/seo";
-import { PageHeader } from "@/widgets/page-header";
-import { ProductPage } from "@/widgets/product";
-import { CtaStrip } from "@/widgets/cta-strip";
+import { PageHero } from "@/widgets/page-hero";
+import { DecayGrid } from "@/widgets/decay";
+import { TuringBlock } from "@/widgets/turing";
+import { FinalCta } from "@/widgets/cta";
+import { Container } from "@/shared/ui";
+import { ConsoleShot, product } from "@/entities/product";
 
 export const metadata = buildMetadata({
-  title: "turing. · 기업용 AI 운영 자동화",
-  description:
-    "turing.은 기업의 AI가 변하는 환경 속에서도 어제와 같은 품질로 일할 수 있도록, AI 운영의 처음부터 끝까지를 함께 책임지는 (주)인트의 솔루션입니다.",
+  title: "turing. — AI 운영 자동화",
+  description: product.lede,
   path: "/turing",
   keywords: [
     "turing",
     "튜링",
-    "intcorp turing",
+    "AI 운영",
     "AI 운영 자동화",
-    "AI Operations 솔루션",
+    "AI 성능열화",
+    "변화적응형 AI",
+    "LLMOps",
+    "AIOps",
     "AI 성능 모니터링",
-    "AI 안정성 솔루션",
-    "기업용 AI 운영",
+    "AI 품질 관리",
+    "AI Agent 운영",
   ],
 });
 
@@ -29,28 +34,23 @@ export default function TuringPage() {
           { name: "turing.", url: "/turing" },
         ]}
       />
-      <PageHeader
+      <PageHero
+        crumbs={[{ label: "turing." }]}
         eyebrow="Product"
-        image="turing"
-        title={
-          <>
-            변화에도 흔들리지 않는
-            <br />
-            <span className="text-muted">기업용 AI 운영의 표준.</span>
-          </>
-        }
-        description="turing.은 점검·감지·진단·계획·회복의 다섯 단계를 하나의 운영 사이클로 자동화합니다."
+        title={product.tagline}
+        description={product.lede}
       />
-      <ProductPage />
-      <CtaStrip
-        title={
-          <>
-            지금 가지고 계신 AI도,
-            <br />
-            <span className="text-mint">turing.으로 보호할 수 있습니다.</span>
-          </>
-        }
-        description="현재 운영 환경을 알려주시면, 도입 단계별로 무엇이 달라지는지 한 페이지로 정리해 드릴게요."
+      <Container width="wide" className="pb-14">
+        <ConsoleShot priority />
+        <p className="mt-4 text-center text-sm text-faint">
+          turing. 콘솔 — 프로젝트별 Agent 운영 상태와 리소스 그룹 현황
+        </p>
+      </Container>
+      <DecayGrid />
+      <TuringBlock />
+      <FinalCta
+        title="지금 운영 중인 AI가 있으신가요?"
+        body="어떤 업무에 쓰고 있고 무엇이 아쉬운지 알려주시면, turing.으로 무엇을 개선할 수 있을지 정리해 회신드립니다."
       />
     </>
   );

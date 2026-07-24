@@ -1,96 +1,253 @@
 @import "tailwindcss";
-@import "tw-animate-css";
+
+/* ==========================================================================
+   int. 디자인 토큰
+
+   디자인 SSOT는 두 문서다.
+   1) 색·타이포 스케일  → docs/brand-guideline.md
+   2) 스타일 방향       → docs/spline-style-design.md (Spline 스타일 스킬)
+
+   스킬 핵심: 여백 80% : 시각요소 20%. 절제된 화면 + 강한 포인트.
+   - 헤딩은 Bold~Black + 자간 좁게 (-2~-3%). 본문은 가볍게 + 넉넉한 줄간격.
+   - 배경은 화이트/오프화이트. 그라디언트는 블롭·3D 표면에만 은은하게(텍스트 위 금지).
+   - 포인트 컬러 1개(Teal)만 절제해서. 강조 텍스트·버튼은 Navy.
+   - 카드는 소프트 섀도우 + 하이라이트로 입체. 모서리 12~24px.
+   ========================================================================== */
 
 @theme {
-  --color-background: #ffffff;
-  --color-foreground: #0a0a0a;
+  --color-*: initial;
 
-  /* Neutral scale */
-  --color-ink: #0a0a0a;
-  --color-ink-soft: #1a1d29;
-  --color-ink-muted: #2a2f3d;
-  --color-muted: #6b7280;
-  --color-muted-strong: #4b5563;
-  --color-muted-soft: #f4f4f5;
-  --color-border: #e5e7eb;
-  --color-border-soft: #f1f3f5;
+  /* ── Gray Scale (가이드라인 2.1) ─────────────────────────────────── */
+  --color-gray-0: #ffffff;
+  --color-gray-10: #fbfcff;
+  --color-gray-20: #eef0f5;
+  --color-gray-30: #d4d8e8;
+  --color-gray-40: #97a0b8;
+  --color-gray-50: #75809a;
+  --color-gray-60: #6b7588;
+  --color-gray-70: #56607a;
+  --color-gray-80: #222a3d;
+  --color-gray-90: #12121a;
+  --color-gray-100: #000000;
 
-  /* Brand mint scale */
-  --color-mint: #3fe0c7;
-  --color-mint-strong: #22cbaf;
-  --color-mint-deep: #0fa089;
-  --color-mint-dark: #066c5d;
-  --color-mint-soft: #c5f5eb;
-  --color-mint-pale: #e6faf5;
-  --color-mint-mist: #f4fbf9;
+  /* ── Navy (Primary) ──────────────────────────────────────────────── */
+  --color-navy-10: #ebf0ff;
+  --color-navy-20: #d4e0ff;
+  --color-navy-30: #052699;
+  --color-navy-40: #04044a;
 
-  /* Warm accent — sparingly */
-  --color-cream: #fff7d6;
-  --color-cream-deep: #fde68a;
+  /* ── Teal (Accent = 유일한 포인트 컬러) ──────────────────────────── */
+  --color-teal-10: #f0fdfb;
+  --color-teal-30: #cefaf5;
+  --color-teal-40: #40e0d0;
 
-  /* Surfaces */
+  /* ── Alert — 폼 검증 등 상태 표시 (가이드라인 2.5) ───────────────── */
+  --color-rose-30: #f13e3e;
+
+  /* ── 표면 ─────────────────────────────────────────────────────────
+     스킬: 배경은 화이트/오프화이트. 리듬은 색이 아니라 여백으로.
+     카드는 소프트 섀도우로 띄운다(글래스는 그라디언트 위에서만). */
+  --color-canvas: #ffffff;
+  --color-canvas-2: #f7f8fa; /* 아주 옅은 오프화이트 — 교차 섹션 최소한만 */
   --color-card: #ffffff;
-  --color-surface: #f7faf9;
-  --color-surface-strong: #eef4f2;
+  --color-line: rgba(4, 4, 74, 0.08);
+  --color-line-strong: rgba(4, 4, 74, 0.14);
 
-  --font-sans: var(--font-pretendard), "Pretendard Variable", Pretendard,
-    -apple-system, BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo",
-    "Noto Sans KR", "Malgun Gothic", sans-serif;
+  /* ── 텍스트 위계 (순검정은 헤딩만, 본문은 70~80% 톤) ─────────────── */
+  --color-heading: #0a0a12; /* 거의 검정 */
+  --color-display: #04044a; /* 디스플레이 = Navy 40 */
+  --color-body: #56607a; /* Gray 70 */
+  --color-subtle: #6b7588; /* Gray 60 */
+  --color-faint: #97a0b8; /* Gray 40 */
 
-  --radius-card: 20px;
+  /* ── 브랜드 ─────────────────────────────────────────────────────── */
+  --color-primary: #04044a;
+  --color-primary-hover: #052699;
+  --color-accent: #40e0d0;
+  --color-link: #052699;
+
+  /* ── 폰트 ─────────────────────────────────────────────────────────
+     한 패밀리(Pretendard)로 weight·size 위계를 만든다.
+     기술 수치·라벨엔 모노를 곁들여 성격을 준다. */
+  --font-sans:
+    var(--font-pretendard), "Pretendard Variable", Pretendard, -apple-system,
+    BlinkMacSystemFont, system-ui, "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
+  --font-mono: "SFMono-Regular", "JetBrains Mono", "Roboto Mono", ui-monospace,
+    "Consolas", monospace;
+
+  /* ── 반경 (12~24 혼용) ──────────────────────────────────────────── */
+  --radius-lg: 24px;
+  --radius-md: 16px;
+  --radius-sm: 12px;
   --radius-pill: 999px;
+
+  /* ── 그림자 (소프트 섀도우로 입체) ──────────────────────────────── */
+  --shadow-soft: 0 8px 30px rgba(4, 4, 74, 0.08);
+  --shadow-lift: 0 24px 60px -18px rgba(4, 4, 74, 0.22);
+  --shadow-glow: 0 20px 80px -20px rgba(64, 224, 208, 0.5);
+
+  /* ── 모션 ─────────────────────────────────────────────────────────
+     전부 ease-out 계열. bounce 금지. 절제된 모션이 프리미엄. */
+  --ease-out-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --animate-blob: blob 12s ease-in-out infinite;
+  --animate-blob-slow: blob 18s ease-in-out infinite;
+  --animate-marquee: marquee 60s linear infinite;
+  --animate-float: floaty 8s ease-in-out infinite;
+  --animate-dash: dash 2.4s linear infinite;
+  --animate-pulse-ring: pulse-ring 2.8s var(--ease-out-soft) infinite;
 }
 
-html,
-body {
-  background: var(--color-background);
-  color: var(--color-foreground);
+/* ==========================================================================
+   Base
+   ========================================================================== */
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 110px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    background: var(--color-canvas);
+    color: var(--color-body);
+    font-family: var(--font-sans);
+    font-size: 16px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  /* 스킬: 헤딩은 Bold~Black + 자간 좁게. 여기서 개성을 만든다. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    color: var(--color-heading);
+    font-weight: 700;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--color-accent);
+    color: var(--color-navy-40);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-link);
+    outline-offset: 2px;
+  }
 }
 
-body {
-  font-family: var(--font-sans);
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  word-break: keep-all;
-  overflow-wrap: anywhere;
+/* ==========================================================================
+   유틸리티
+   ========================================================================== */
+
+/* 브랜드 그라디언트 — 블롭·3D 표면에만. 텍스트 위에 쓰지 않는다. */
+@utility bg-brand-gradient {
+  background-image: linear-gradient(
+    135deg,
+    #04044a 0%,
+    #1b2a8f 45%,
+    #40e0d0 100%
+  );
+}
+@utility bg-mist-gradient {
+  background-image: radial-gradient(
+      60% 60% at 20% 20%,
+      rgba(64, 224, 208, 0.16),
+      transparent 70%
+    ),
+    radial-gradient(60% 60% at 85% 30%, rgba(5, 38, 153, 0.14), transparent 70%);
 }
 
-::selection {
-  background: var(--color-mint);
-  color: var(--color-ink);
+/* 글래스 카드 — 그라디언트/이미지 위에 얹을 때만. 흰 배경 위에선 안 보인다. */
+@utility glass {
+  background: rgba(255, 255, 255, 0.62);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.55);
+  box-shadow: var(--shadow-soft);
+}
+@utility glass-dark {
+  background: rgba(10, 10, 26, 0.42);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
 }
 
-/* Brand mark utility — tight tracking + black weight + mint period */
-.brand-mark {
-  font-family: var(--font-sans);
-  font-weight: 900;
-  letter-spacing: -0.055em;
-  font-feature-settings: "ss03";
-  line-height: 1;
-  display: inline-flex;
-  align-items: baseline;
+/* ==========================================================================
+   Keyframes — 전부 부드러운 ease. bounce 없음.
+   ========================================================================== */
+
+/* 배경 그라디언트 블롭이 천천히 떠다니고 형태가 미묘하게 변한다 */
+@keyframes blob {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+    border-radius: 42% 58% 63% 37% / 41% 44% 56% 59%;
+  }
+  33% {
+    transform: translate(3%, -4%) scale(1.06);
+    border-radius: 58% 42% 40% 60% / 56% 39% 61% 44%;
+  }
+  66% {
+    transform: translate(-3%, 3%) scale(0.96);
+    border-radius: 45% 55% 52% 48% / 48% 60% 40% 52%;
+  }
 }
 
-.brand-mark > .brand-dot {
-  color: var(--color-mint);
-  display: inline-block;
-  margin-left: -0.05em;
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
-/* Marquee */
 @keyframes marquee {
-  from { transform: translateX(0); }
-  to   { transform: translateX(-50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
 }
-.animate-marquee {
-  animation: marquee 50s linear infinite;
+
+@keyframes dash {
+  to {
+    stroke-dashoffset: -24;
+  }
 }
+
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.5;
+  }
+  70%,
+  100% {
+    transform: scale(1.9);
+    opacity: 0;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-marquee { animation: none; }
-}
-
-html { scroll-behavior: smooth; scroll-padding-top: 88px; }
-
-@media (max-width: 640px) {
-  body { font-size: 15px; }
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
 }

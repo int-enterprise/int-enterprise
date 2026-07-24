@@ -1,3 +1,4 @@
-export { product } from "./model/product";
-export type { Product, ProductPillar, ProductOutcome } from "./model/product";
-export { PillarCard } from "./ui/pillar-card";
+export { product, loopStages, decayAxes, harness } from "./model/product";
+export type { Product, LoopStage, DecayAxis } from "./model/product";
+export { LoopDiagram } from "./ui/loop-diagram";
+export { ConsoleShot, ConsoleWindow } from "./ui/console-shot";

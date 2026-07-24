@@ -2,33 +2,29 @@
 
 import * as React from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ChevronDown, X } from "lucide-react";
+import { ArrowRight, X } from "lucide-react";
 import { BrandMark, Button } from "@/shared/ui";
+import { company } from "@/entities/company";
+import { ctaNav, navItems } from "@/shared/config";
 
-const MOBILE_NAV_LABEL = "font-black tracking-[-0.04em] text-xl";
-import { navItems } from "@/shared/config";
-import { cn } from "@/shared/lib";
-
-interface MobileNavProps {
+export function MobileNav({
+  open,
+  onClose,
+}: {
   open: boolean;
   onClose: () => void;
-}
-
-export function MobileNav({ open, onClose }: MobileNavProps) {
-  const pathname = usePathname();
+}) {
   React.useEffect(() => {
-    if (open) document.body.style.overflow = "hidden";
-    else document.body.style.overflow = "";
+    if (!open) return;
+    const { overflow } = document.body.style;
+    document.body.style.overflow = "hidden";
+    const onKey = (e: KeyboardEvent) => e.key === "Escape" && onClose();
+    window.addEventListener("keydown", onKey);
     return () => {
-      document.body.style.overflow = "";
+      document.body.style.overflow = overflow;
+      window.removeEventListener("keydown", onKey);
     };
-  }, [open]);
-
-  React.useEffect(() => {
-    onClose();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pathname]);
+  }, [open, onClose]);
 
   if (!open) return null;
 
@@ -36,102 +32,52 @@ export function MobileNav({ open, onClose }: MobileNavProps) {
     <div
       role="dialog"
       aria-modal="true"
-      className="fixed inset-0 z-50 flex flex-col bg-white lg:hidden"
+      aria-label="사이트 메뉴"
+      className="fixed inset-0 z-50 flex flex-col bg-canvas lg:hidden"
     >
-      <div className="flex items-center justify-between border-b border-border-soft px-5 py-3">
-        <Link href="/" onClick={onClose}>
-          <BrandMark size="md" />
-        </Link>
+      <div className="flex h-20 items-center justify-between px-6">
+        <BrandMark size="md" />
         <button
           type="button"
           onClick={onClose}
           aria-label="메뉴 닫기"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white"
+          className="inline-flex h-10 w-10 items-center justify-center rounded-pill border border-line bg-canvas text-heading"
         >
-          <X className="h-5 w-5" />
+          <X className="h-5 w-5" aria-hidden />
         </button>
       </div>
 
-      <nav className="flex-1 overflow-y-auto px-5 py-6">
-        <ul className="flex flex-col gap-1">
-          {navItems
-            .filter((n) => !n.cta)
-            .map((item) => (
-              <MobileNavGroup key={item.href} item={item} onClose={onClose} />
-            ))}
-        </ul>
+      <nav aria-label="주 메뉴" className="flex flex-1 flex-col gap-2 px-6 pt-6">
+        {navItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            onClick={onClose}
+            className="flex flex-col gap-1 rounded-md px-4 py-4 transition-colors hover:bg-canvas-2"
+          >
+            <span className="flex items-center justify-between text-xl text-heading">
+              {item.label}
+              <ArrowRight className="h-5 w-5 text-faint" aria-hidden />
+            </span>
+            <span className="text-sm text-subtle">{item.description}</span>
+          </Link>
+        ))}
       </nav>
 
-      <div className="border-t border-border-soft p-5">
-        <Button asChild size="lg" className="w-full">
-          <Link href="/contact" onClick={onClose}>
-            문의하기
+      <div className="flex flex-col gap-4 px-6 pb-10">
+        <Button asChild size="lg">
+          <Link href={ctaNav.href} onClick={onClose}>
+            {ctaNav.label}
+            <ArrowRight className="h-4 w-4" aria-hidden />
           </Link>
         </Button>
+        <a
+          href={`mailto:${company.contact.email}`}
+          className="text-sm text-subtle"
+        >
+          {company.contact.email}
+        </a>
       </div>
     </div>
-  );
-}
-
-function MobileNavGroup({
-  item,
-  onClose,
-}: {
-  item: (typeof navItems)[number];
-  onClose: () => void;
-}) {
-  const [expanded, setExpanded] = React.useState(false);
-
-  const isBrandItem = item.highlight && item.label === "turing.";
-
-  if (!item.children) {
-    return (
-      <li>
-        <Link
-          href={item.href}
-          onClick={onClose}
-          className="block rounded-2xl px-4 py-4 text-ink hover:bg-muted-soft"
-        >
-          {isBrandItem ? (
-            <BrandMark size="sm" label="turing" />
-          ) : (
-            <span className={MOBILE_NAV_LABEL}>{item.label}</span>
-          )}
-        </Link>
-      </li>
-    );
-  }
-
-  return (
-    <li>
-      <button
-        type="button"
-        onClick={() => setExpanded((v) => !v)}
-        className="flex w-full items-center justify-between rounded-2xl px-4 py-4 text-ink hover:bg-muted-soft"
-      >
-        <span className={MOBILE_NAV_LABEL}>{item.label}</span>
-        <ChevronDown
-          className={cn(
-            "h-5 w-5 transition-transform",
-            expanded && "rotate-180"
-          )}
-        />
-      </button>
-      {expanded && (
-        <ul className="mt-1 flex flex-col gap-0.5 border-l border-border pl-4">
-          {item.children.map((c) => (
-            <li key={c.href}>
-              <Link
-                href={c.href}
-                onClick={onClose}
-                className="block rounded-xl px-4 py-3 text-base text-muted-strong hover:bg-muted-soft hover:text-ink"
-              >
-                {c.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-      )}
-    </li>
   );
 }

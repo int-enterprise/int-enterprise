@@ -2,62 +2,85 @@
 
 import * as React from "react";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Menu } from "lucide-react";
 import { BrandMark, Button } from "@/shared/ui";
-import { navItems } from "@/shared/config";
+import { ctaNav, navItems } from "@/shared/config";
 import { cn } from "@/shared/lib";
-import { NavItemDesktop } from "./nav-item-desktop";
 import { MobileNav } from "./mobile-nav";
 
+/**
+ * sticky 알약 헤더.
+ * 화면 위에 떠 있는 크롬이므로 pill 반경을 쓴다 — 콘텐츠 CTA와 구분되는 지점.
+ * 스크롤 전에는 배경이 없고, 내려가면 반투명 배경 + 1px 링이 켜진다.
+ */
 export function Header() {
+  const pathname = usePathname();
   const [open, setOpen] = React.useState(false);
   const [scrolled, setScrolled] = React.useState(false);
 
   React.useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 4);
+    const onScroll = () => setScrolled(window.scrollY > 8);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
   return (
-    <header
-      className={cn(
-        "sticky top-0 z-50 w-full bg-white border-b transition-shadow",
-        scrolled ? "border-border shadow-sm" : "border-border-soft"
-      )}
-    >
-      <div className="mx-auto flex h-[68px] w-full max-w-6xl items-center justify-between px-5 sm:h-20 sm:px-8">
-        <Link href="/" aria-label="int. 홈으로" className="flex items-center">
+    <header className="sticky top-4 z-50 mx-auto w-full max-w-[1220px] px-4 sm:top-6 sm:px-6">
+      <nav
+        aria-label="주 메뉴"
+        className={cn(
+          "flex h-14 items-center justify-between gap-6 rounded-pill pl-6 pr-2",
+          "transition-[background-color,box-shadow,backdrop-filter] duration-300",
+          scrolled
+            ? "bg-canvas/70 shadow-soft backdrop-blur-2xl [border:1px_solid_var(--color-line)]"
+            : "bg-transparent"
+        )}
+      >
+        <Link href="/" aria-label="홈으로" className="flex items-center">
           <BrandMark size="md" />
         </Link>
 
-        <nav
-          className="hidden items-center gap-1 lg:flex"
-          aria-label="주 메뉴"
-        >
-          {navItems
-            .filter((n) => !n.cta)
-            .map((item) => (
-              <NavItemDesktop key={item.href} item={item} />
-            ))}
-        </nav>
+        <ul className="hidden items-center gap-1 lg:flex">
+          {navItems.map((item) => {
+            const active =
+              pathname === item.href || pathname.startsWith(`${item.href}/`);
+            return (
+              <li key={item.href}>
+                <Link
+                  href={item.href}
+                  aria-current={active ? "page" : undefined}
+                  className={cn(
+                    "inline-flex h-9 items-center rounded-pill px-3.5 text-sm font-medium transition-colors",
+                    active
+                      ? "text-heading"
+                      : "text-subtle hover:text-heading"
+                  )}
+                >
+                  {item.label}
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
 
-        <div className="hidden lg:flex">
-          <Button asChild size="sm" variant="primary">
-            <Link href="/contact">문의하기</Link>
+        <div className="flex items-center gap-2">
+          <Button asChild size="sm" className="hidden rounded-pill lg:inline-flex">
+            <Link href={ctaNav.href}>{ctaNav.label}</Link>
           </Button>
-        </div>
 
-        <button
-          type="button"
-          onClick={() => setOpen(true)}
-          aria-label="메뉴 열기"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-border bg-white text-ink lg:hidden"
-        >
-          <Menu className="h-5 w-5" />
-        </button>
-      </div>
+          <button
+            type="button"
+            onClick={() => setOpen(true)}
+            aria-label="메뉴 열기"
+            aria-expanded={open}
+            className="inline-flex h-10 w-10 items-center justify-center rounded-pill border border-line bg-canvas text-heading shadow-soft transition-colors hover:bg-canvas-2 lg:hidden"
+          >
+            <Menu className="h-5 w-5" aria-hidden />
+          </button>
+        </div>
+      </nav>
 
       <MobileNav open={open} onClose={() => setOpen(false)} />
     </header>

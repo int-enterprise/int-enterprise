@@ -1,5 +1,5 @@
 import { buildMetadata, BreadcrumbJsonLd } from "@/shared/seo";
-import { PageHeader } from "@/widgets/page-header";
+import { PageHero } from "@/widgets/page-hero";
 import { LegalDoc, type LegalSection } from "@/widgets/legal";
 import { company } from "@/entities/company";
 
@@ -91,7 +91,8 @@ export default function TermsPage() {
           { name: "이용약관", url: "/terms" },
         ]}
       />
-      <PageHeader
+      <PageHero
+        crumbs={[{ label: "이용약관" }]}
         eyebrow="Legal"
         title="이용약관"
         description="(주)인트가 운영하는 웹사이트 및 서비스 이용에 관한 약관입니다."

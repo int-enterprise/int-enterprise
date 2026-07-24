@@ -1,1 +1,1 @@
-export { Careers } from "./ui/careers";
+export { CareersDetail } from "./ui/careers-detail";

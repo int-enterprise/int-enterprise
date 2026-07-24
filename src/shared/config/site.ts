@@ -49,48 +49,41 @@ export type SiteConfig = typeof siteConfig;
 export interface NavItem {
   label: string;
   href: string;
-  description?: string;
-  cta?: boolean;
-  highlight?: boolean;
-  children?: readonly NavItem[];
+  description: string;
 }
 
+/** 헤더·모바일 메뉴·푸터가 공유하는 주 메뉴. CTA(문의하기)는 별도로 둔다. */
 export const navItems: readonly NavItem[] = [
   {
-    label: "회사 소개",
-    href: "/about",
-    children: [
-      { label: "회사 개요", href: "/about", description: "(주)인트는 어떤 회사인가요" },
-      { label: "연혁", href: "/about/history", description: "Int Corp.의 발자취" },
-      { label: "위치", href: "/about/location", description: "오시는 길과 연락처" },
-      { label: "CEO 프로필", href: "/about/ceo", description: "Founder 박현규" },
-      { label: "채용 안내", href: "/about/careers", description: "함께할 사람을 찾습니다" },
-    ],
+    label: "기업용 AI 구축",
+    href: "/services",
+    description: "업무에 맞는 AI를 설계하고 만듭니다",
   },
   {
     label: "turing.",
     href: "/turing",
-    highlight: true,
-    description: "기업용 AI 운영 솔루션",
+    description: "만든 AI가 계속 제 성능을 내게 합니다",
   },
   {
-    label: "고객사",
-    href: "/clients",
-    description: "함께한 기업들",
+    label: "회사 소개",
+    href: "/about",
+    description: "원칙 · 연혁 · 대표 · 오시는 길",
   },
   {
-    label: "관계사",
-    href: "/partners",
-    description: "기술·연구·전략 파트너",
+    label: "채용",
+    href: "/careers",
+    description: "함께할 동료를 찾습니다",
   },
-  {
-    label: "인사이트",
-    href: "/insights",
-    description: "뉴스 · 보도자료 · 기사",
-  },
-  {
-    label: "문의하기",
-    href: "/contact",
-    cta: true,
-  },
+] as const;
+
+export const ctaNav = {
+  label: "문의하기",
+  href: "/contact",
+} as const;
+
+/** 푸터 하단 법적 고지. 앱 스토어 심사가 참조하는 주소이므로 임의로 지우지 않는다. */
+export const legalNav: readonly NavItem[] = [
+  { label: "개인정보처리방침", href: "/privacy", description: "" },
+  { label: "이용약관", href: "/terms", description: "" },
+  { label: "계정 삭제 요청", href: "/delete-account", description: "" },
 ] as const;

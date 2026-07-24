@@ -1,14 +1,33 @@
 import { buildMetadata, BreadcrumbJsonLd } from "@/shared/seo";
-import { PageHeader } from "@/widgets/page-header";
-import { AboutOverview } from "@/widgets/about";
-import { CtaStrip } from "@/widgets/cta-strip";
+import { PageHero } from "@/widgets/page-hero";
+import {
+  FounderSection,
+  LocationSection,
+  OriginSection,
+  PartnersSection,
+  Timeline,
+} from "@/widgets/company";
+import { PressBlock } from "@/widgets/press";
+import { FinalCta } from "@/widgets/cta";
+import { positioning } from "@/entities/service";
 
 export const metadata = buildMetadata({
   title: "회사 소개",
   description:
-    "(주)인트 Int Corp.는 변화하는 환경에서도 안정적으로 작동하는 기업용 AI 운영의 표준을 만들어 가는 회사입니다. 회사 개요·연혁·대표·채용·오시는 길을 안내합니다.",
+    "(주)인트는 서강대학교 기술경영전문대학원 박현규 교수 연구실에서 출발한 기업입니다. 연구실 창업 배경과 연혁, 대표 소개, 오시는 길을 안내합니다.",
   path: "/about",
-  keywords: ["(주)인트", "Int Corp", "인트 회사 소개", "intcorp 회사", "박현규 대표"],
+  keywords: [
+    "인트",
+    "(주)인트",
+    "주식회사 인트",
+    "Int Corp",
+    "intcorp",
+    "박현규",
+    "서강대 연구실 창업",
+    "서강대 기술경영전문대학원",
+    "인트 연혁",
+    "인트 오시는 길",
+  ],
 });
 
 export default function AboutPage() {
@@ -20,20 +39,19 @@ export default function AboutPage() {
           { name: "회사 소개", url: "/about" },
         ]}
       />
-      <PageHeader
+      <PageHero
+        crumbs={[{ label: "회사 소개" }]}
         eyebrow="About"
-        image="about"
-        title={
-          <>
-            (주)인트는,
-            <br />
-            <span className="text-muted">AI 운영을 다시 정의합니다.</span>
-          </>
-        }
-        description="모델은 만들고 끝이 아닙니다. 만든 후가 진짜입니다. (주)인트는 그 진짜의 영역을, 시스템으로 풀어냅니다."
+        title="연구실에서 시작해, 현장에서 검증하고 있습니다"
+        description={positioning.oneLiner}
       />
-      <AboutOverview />
-      <CtaStrip />
+      <OriginSection />
+      <Timeline />
+      <FounderSection />
+      <PartnersSection />
+      <PressBlock />
+      <LocationSection />
+      <FinalCta />
     </>
   );
 }
