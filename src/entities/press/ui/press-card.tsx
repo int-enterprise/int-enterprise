@@ -6,6 +6,10 @@ import { formatPressDate, type PressItem } from "../model/press";
 /**
  * 기사 카드. 사진이 있으면 사진이 주인, 없으면 브랜드 그라디언트 패널로 채운다.
  * 소프트 섀도우로 띄우고 hover 시 살짝 떠오른다.
+ *
+ * lg(featured): 카드가 세로로 늘어나면 남는 높이를 이미지가 채운다.
+ *   (제목과 "기사 보기" 사이에 빈 공간이 생기지 않도록)
+ * md(격자): 이미지는 고정 비율, 제목이 flex-1로 늘어 "기사 보기"를 바닥에 정렬.
  */
 export function PressCard({
   item,
@@ -17,7 +21,11 @@ export function PressCard({
   className?: string;
 }) {
   const lg = size === "lg";
-  const ratio = lg ? "aspect-[16/9]" : "aspect-[16/10]";
+
+  // 이미지 영역: lg는 남는 높이를 채우고(flex-1), md는 고정 비율.
+  const mediaClass = lg
+    ? "relative w-full flex-1 min-h-[320px] overflow-hidden"
+    : "relative w-full aspect-[16/10] overflow-hidden";
 
   return (
     <a
@@ -31,22 +39,23 @@ export function PressCard({
       )}
     >
       {item.image ? (
-        <div className={cn("relative w-full overflow-hidden", ratio)}>
+        <div className={mediaClass}>
           <Image
             src={item.image}
             alt=""
             fill
-            sizes={lg ? "(max-width: 1024px) 100vw, 720px" : "(max-width: 1024px) 100vw, 400px"}
+            sizes={
+              lg
+                ? "(max-width: 1024px) 100vw, 720px"
+                : "(max-width: 1024px) 100vw, 400px"
+            }
             className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
           />
         </div>
       ) : (
         <div
           aria-hidden
-          className={cn(
-            "bg-brand-gradient relative flex w-full items-end overflow-hidden p-6",
-            ratio
-          )}
+          className={cn("bg-brand-gradient relative flex items-end p-6", mediaClass)}
         >
           <div
             className="pointer-events-none absolute inset-0 opacity-50"
@@ -61,7 +70,7 @@ export function PressCard({
         </div>
       )}
 
-      <div className={cn("flex flex-1 flex-col gap-3", lg ? "p-8" : "p-6")}>
+      <div className="flex flex-col gap-3 p-6">
         <div className="flex items-center gap-2 text-xs">
           <span className="font-semibold text-heading">{item.outlet}</span>
           <span className="text-faint">·</span>
@@ -74,8 +83,8 @@ export function PressCard({
         </div>
         <h3
           className={cn(
-            "flex-1 font-semibold leading-[1.4] text-heading",
-            lg ? "text-xl sm:text-2xl" : "text-base"
+            "font-semibold leading-[1.4] text-heading",
+            lg ? "text-xl sm:text-2xl" : "flex-1 text-base"
           )}
         >
           {item.title}
