@@ -80,13 +80,18 @@ export function Hero() {
 
         {/* 중앙 — 이 화면의 시각 요소. 우측 칸은 비워 3D를 화면 가운데에 둔다. */}
         <div
-          className="order-last mx-auto aspect-square w-full max-w-[280px] sm:max-w-[420px] lg:order-none lg:max-w-none"
+          className="relative order-last mx-auto aspect-square w-full max-w-[280px] sm:max-w-[420px] lg:order-none lg:max-w-none"
           // 끝자락(0.7~1)에서만 살짝 흐려진다. 일찍 흐려지면 볼거리 없는 화면이 길어진다.
           style={{
             opacity: "calc(1 - max(0, var(--hero-p, 0) - 0.7) * 1.4)",
           }}
         >
-          <HeroScene className="h-full w-full" />
+          {/*
+            ⚠️ 캔버스를 칸보다 20% 넓게 그린다. 칸 크기에 딱 맞추면 스크롤로 회전할 때
+            도형이 캔버스 경계에서 잘린다(캔버스가 곧 카메라 프레임이다).
+            카메라도 같은 비율로 물러나 있어(hero-canvas의 z) 화면상 크기는 그대로다.
+          */}
+          <HeroScene className="absolute -inset-[20%]" />
         </div>
       </Container>
 

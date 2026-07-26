@@ -167,7 +167,9 @@ export function HeroCanvas({ className }: { className?: string }) {
           toneMapping: THREE.ACESFilmicToneMapping,
         }}
         dpr={[1, 1.75]}
-        camera={{ position: [0, 0, 6.5], fov: 42 }}
+        // z 9.1 — 캔버스를 칸보다 20% 크게(-inset-[20%]) 그리는 만큼 카메라도 물러나 있다.
+        // 둘은 한 쌍이다. 한쪽만 고치면 도형이 커지거나 프레임에서 잘린다.
+        camera={{ position: [0, 0, 9.1], fov: 42 }}
         style={{ pointerEvents: "none" }}
       >
         <ambientLight intensity={0.5} />
