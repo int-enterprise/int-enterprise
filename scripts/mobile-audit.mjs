@@ -178,6 +178,8 @@ for (const route of ROUTES) {
         if (r.width === 0 || r.height === 0) continue;
         // 본문 안에 인라인으로 섞인 링크는 대상이 아니다
         if (s.display === "inline") continue;
+        // 스크린리더 전용(스킵 링크)은 포커스 전에는 1×1이다 — 손가락 대상이 아니다
+        if (r.width <= 1 && r.height <= 1) continue;
         if (r.height < minTap - 0.01 || r.width < minTap - 0.01) {
           out.push({
             종류: "작은 탭",

@@ -29,13 +29,23 @@ export function PageHero({
       {/* main이 위쪽에서 잘리므로 첫 섹션의 블롭에 음수 top을 주지 않는다
           (음수를 주면 콘텐츠 최상단에 직선 자른 자국이 생긴다) */}
       <Blob color="teal" size={440} className="left-[-60px] top-0" />
-      <Blob color="navy" size={380} className="right-[-40px] top-[40px]" delay={4} />
+      <Blob
+        color="navy"
+        size={380}
+        className="right-[-40px] top-[40px]"
+        delay={4}
+      />
 
       <Container className="relative flex flex-col items-center gap-6 text-center">
         <nav aria-label="현재 위치">
-          <ol className="flex flex-wrap items-center justify-center gap-2 text-sm text-faint">
+          {/* 손가락 기준 44px를 맞추려고 링크에 `py-2 -my-2`를 준다.
+              글자를 키우는 것이 아니라 히트 영역만 넓히는 방식이다(줄 높이는 그대로). */}
+          <ol className="flex flex-wrap items-center justify-center gap-x-2 gap-y-1 text-sm text-faint">
             <li>
-              <Link href="/" className="transition-colors hover:text-body">
+              <Link
+                href="/"
+                className="-mx-4 -my-2 inline-flex items-center justify-center px-4 py-2 transition-colors hover:text-body"
+              >
                 홈
               </Link>
             </li>
@@ -43,7 +53,10 @@ export function PageHero({
               <li key={c.label} className="flex items-center gap-2">
                 <span aria-hidden>/</span>
                 {c.href ? (
-                  <Link href={c.href} className="transition-colors hover:text-body">
+                  <Link
+                    href={c.href}
+                    className="-mx-4 -my-2 inline-flex items-center justify-center px-4 py-2 transition-colors hover:text-body"
+                  >
                     {c.label}
                   </Link>
                 ) : (

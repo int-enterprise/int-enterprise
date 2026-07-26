@@ -55,6 +55,8 @@ export function BenefitsGrid() {
                 key={b.title}
                 className={[
                   "flex flex-col items-center gap-4 px-4 text-center",
+                  // 모바일 2열에서 홀수 개면 마지막 칸이 왼쪽에 혼자 남는다
+                  "last:odd:col-span-2 sm:last:odd:col-span-1",
                   // 세로 구분선 — 각 줄의 첫 칸에는 넣지 않는다
                   "border-line [&:not(:nth-child(2n+1))]:border-l",
                   "sm:[&:not(:nth-child(2n+1))]:border-l-0 sm:[&:not(:nth-child(3n+1))]:border-l",

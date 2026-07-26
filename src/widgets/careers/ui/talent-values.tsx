@@ -39,7 +39,9 @@ export function TalentValues() {
             return (
               <li
                 key={v.key}
-                className="flex flex-col items-center gap-5 px-2 text-center"
+                // 모바일 2열에서 홀수 개면 마지막 하나가 왼쪽에 혼자 남는다 —
+                // 그 칸만 두 열을 차지하게 해 가운데로 보낸다.
+                className="flex flex-col items-center gap-5 px-2 text-center last:odd:col-span-2 sm:last:odd:col-span-1"
               >
                 <Icon
                   className="h-11 w-11 text-faint"

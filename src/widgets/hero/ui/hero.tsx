@@ -8,7 +8,11 @@ import { HeroScene } from "./hero-scene";
  * 히어로 — 좌(워드마크 + 브랜드 뜻) / 중앙(3D) / 우(슬로건 + 버튼) 3열.
  *
  * ⚠️ 텍스트 좌 / 3D 우의 2열로 바꿨다가 되돌렸다. 이 3열이 확정된 구성이다.
- * DOM 순서가 그대로 좌→중앙→우 열에 대응하므로 모바일에서도 읽는 순서가 유지된다.
+ *
+ * **모바일에서는 3D를 맨 아래로 내린다(`order-last`).**
+ * DOM 순서대로 쌓으면 3D 정사각형이 화면 하나를 통째로 먹고, 슬로건과 버튼이
+ * 첫 화면 밖으로 밀린다 — 휴대폰에서는 아무도 도입 문의 버튼을 못 본다.
+ * 좁은 화면의 읽는 순서는 **브랜드 → 슬로건 → 버튼 → 3D**다.
  *
  * 브랜드 풀네임(intelligent new technologies)이 나오는 자리는 **여기 한 곳뿐이다.**
  *
@@ -33,38 +37,24 @@ export function Hero() {
 
       <Container
         width="bleed"
-        className="grid items-center gap-y-10 py-20 sm:py-24 lg:grid-cols-[minmax(0,1fr)_minmax(320px,480px)_minmax(0,1fr)] lg:gap-x-10 lg:py-[120px]"
+        className="grid items-center gap-y-9 py-14 sm:gap-y-10 sm:py-24 lg:grid-cols-[minmax(0,1fr)_minmax(320px,480px)_minmax(0,1fr)] lg:gap-x-10 lg:py-[120px]"
       >
-        {/* 좌 — 워드마크와 브랜드의 뜻 */}
-        <div className="flex flex-col items-start gap-5">
-          <BrandMark size="xl" />
-          <div className="flex flex-col gap-2">
-            <p className="text-lg font-light tracking-[-0.01em] text-faint">
-              {company.brandMeaning}
-            </p>
-            <p className="text-lg font-semibold text-display">
-              지능적인 새 기술로 기업의 일을 바꿉니다
-            </p>
-          </div>
-        </div>
-
-        {/* 중앙 — 이 화면의 시각 요소 */}
-        <HeroScene className="mx-auto aspect-square w-full max-w-[340px] sm:max-w-[420px] lg:max-w-none" />
-
-        {/* 우 — 슬로건과 진입점 */}
+        {/* 좌 — 워드마크, 브랜드의 뜻, 진입점 */}
         <div className="flex flex-col items-start gap-7">
-          <h1 className="text-[2.4rem] font-bold leading-[1.12] tracking-[-0.035em] text-display sm:text-[3rem] lg:text-[3.4rem]">
-            변화에 적응하는
-            <br />
-            기업용 AI
-          </h1>
+          <div className="flex flex-col items-start gap-5">
+            <BrandMark size="xl" />
+            <div className="flex flex-col gap-2">
+              <p className="text-lg font-light tracking-[-0.01em] text-faint">
+                {company.brandMeaning}
+              </p>
+              {/* 이 페이지의 h1. 슬로건 문단을 없앴으므로 여기가 유일한 최상위 헤딩이다. */}
+              <h1 className="text-lg font-semibold text-display">
+                지능적인 새 기술로 기업의 일을 바꿉니다
+              </h1>
+            </div>
+          </div>
 
-          <p className="max-w-[38ch] text-lg font-light leading-[1.75] text-body">
-            기업용 AI를 직접 설계해 만들고, 그 AI가 시간이 지나도 제 성능을 내게
-            합니다. 만드는 일과 만든 뒤를 지키는 일을 한 팀이 합니다.
-          </p>
-
-          <div className="flex flex-wrap items-center gap-3 pt-1">
+          <div className="flex flex-wrap items-center gap-3">
             <Button asChild size="lg">
               <Link href="/contact">
                 도입 문의
@@ -76,6 +66,9 @@ export function Hero() {
             </Button>
           </div>
         </div>
+
+        {/* 중앙 — 이 화면의 시각 요소. 우측 칸은 비워 3D를 화면 가운데에 둔다. */}
+        <HeroScene className="order-last mx-auto aspect-square w-full max-w-[280px] sm:max-w-[420px] lg:order-none lg:max-w-none" />
       </Container>
     </section>
   );
