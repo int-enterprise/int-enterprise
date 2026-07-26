@@ -15,7 +15,6 @@ export const metadata = buildMetadata({
     "turing",
     "기업용 AI 구축",
     "AI 운영 자동화",
-    "변화적응형 AI",
     "엔터프라이즈 AI",
     "(주)인트 제품",
   ],

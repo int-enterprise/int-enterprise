@@ -5,6 +5,7 @@ import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { Float, Environment, Lightformer, RoundedBox } from "@react-three/drei";
 import { useReducedMotion } from "motion/react";
 import * as THREE from "three";
+import { HeroProgressContext } from "./hero-progress";
 
 /**
  * 히어로 배경 3D 씬. Spline을 쓰지 않고 직접 구현한다.
@@ -107,6 +108,31 @@ function Shape({ def }: { def: ShapeDef }) {
   );
 }
 
+/**
+ * 스크롤 진행도에 따라 씬 전체를 천천히 돌리고 키운다.
+ * 값은 `HeroProgressContext`의 ref에서 프레임마다 읽는다(리렌더 없음).
+ * lerp로 따라가게 해서 스크롤을 빨리 굴려도 도형은 느리게 움직인다.
+ */
+function ScrollRig({ children }: { children: React.ReactNode }) {
+  const ref = React.useRef<THREE.Group>(null);
+  const progress = React.useContext(HeroProgressContext);
+
+  useFrame(() => {
+    const g = ref.current;
+    if (!g) return;
+    const p = progress?.current ?? 0;
+    // ⚠️ 크게 키우거나 위로 많이 올리지 않는다. 도형이 캔버스 밖으로 잘려
+    //    "무언가 깨진 화면"이 된다. 변화는 **회전**으로 만들고 이동·축소는 거들기만 한다.
+    g.rotation.y = THREE.MathUtils.lerp(g.rotation.y, p * 2.2, 0.06);
+    g.rotation.z = THREE.MathUtils.lerp(g.rotation.z, p * 0.1, 0.06);
+    g.position.y = THREE.MathUtils.lerp(g.position.y, p * 0.2, 0.06);
+    const s = THREE.MathUtils.lerp(g.scale.x, 1 - p * 0.1, 0.06);
+    g.scale.setScalar(s);
+  });
+
+  return <group ref={ref}>{children}</group>;
+}
+
 /** 포인터를 따라 그룹을 아주 살짝 기울여 깊이를 만든다. */
 function ParallaxRig({ children }: { children: React.ReactNode }) {
   const ref = React.useRef<THREE.Group>(null);
@@ -157,11 +183,13 @@ export function HeroCanvas({ className }: { className?: string }) {
           <Lightformer intensity={2} position={[3, -2, -5]} scale={6} color="#ffffff" />
         </Environment>
 
-        <ParallaxRig>
-          {SHAPES.map((def, i) => (
-            <Shape key={i} def={def} />
-          ))}
-        </ParallaxRig>
+        <ScrollRig>
+          <ParallaxRig>
+            {SHAPES.map((def, i) => (
+              <Shape key={i} def={def} />
+            ))}
+          </ParallaxRig>
+        </ScrollRig>
       </Canvas>
     </div>
   );

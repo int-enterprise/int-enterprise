@@ -71,10 +71,14 @@ export function PressCard({
       )}
 
       <div className="flex flex-col gap-3 p-6">
-        <div className="flex items-center gap-2 text-xs">
-          <span className="font-semibold text-heading">{item.outlet}</span>
+        {/* 좁은 화면에서 매체명이 줄 안에서 쪼개지지 않게 한다.
+            자리가 모자라면 매체·날짜가 아니라 **배지가 다음 줄로** 내려가야 한다. */}
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1.5 text-xs">
+          <span className="shrink-0 font-semibold text-heading">
+            {item.outlet}
+          </span>
           <span className="text-faint">·</span>
-          <time dateTime={item.date} className="font-mono text-faint">
+          <time dateTime={item.date} className="shrink-0 font-mono text-faint">
             {formatPressDate(item.date)}
           </time>
           <span className="ml-auto shrink-0 rounded-pill border border-line px-2.5 py-1 text-xs text-subtle">

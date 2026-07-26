@@ -2,12 +2,16 @@ export const siteConfig = {
   brand: "int.",
   legalName: "주식회사 인트",
   enLegalName: "Int Corp.",
-  title: "int. · 변화에 적응하는 기업용 AI",
-  tagline: "변화에 적응하는 기업용 AI",
+  title: "int. · 기업용 AI 구축과 운영",
+  tagline: "기업용 AI 구축과 운영",
   /** 브랜드명의 뜻(전부 소문자). 사실의 원본은 entities/company의 `company.brandMeaning`이다. */
   brandMeaning: "intelligent new technologies",
+  /**
+   * 검색 결과·OG에 그대로 나가는 회사 소개 한 줄.
+   * ⚠️ 슬로건을 쓰지 않는다. 확인된 사실만 담백하게 적는다(docs/company-profile.md §1).
+   */
   description:
-    "int.는 intelligent new technologies의 약자입니다. (주)인트는 기업용 AI를 직접 만드는 'buildAI.'와, 만든 AI가 계속 제 성능을 내게 하는 운영 자동화 솔루션 'turing.'을 만듭니다.",
+    "(주)인트는 기업 업무에 맞는 AI를 설계·구축하고, 만든 AI의 운영까지 맡는 회사입니다.",
   url: "https://intcorp.ai",
   ogImage: "/og.png",
   locale: "ko_KR",
@@ -33,8 +37,6 @@ export const siteConfig = {
     "AI Agent 운영",
     "AI Operations",
     "AI Agent Operations",
-    "변화 적응형 AI",
-    "변화적응형 AI",
     "기업용 AI",
     "기업용 AI 구축",
     "Enterprise AI",

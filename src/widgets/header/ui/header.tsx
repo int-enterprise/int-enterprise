@@ -41,7 +41,8 @@ export function Header() {
             : "bg-transparent"
         )}
       >
-        <Link href="/" aria-label="홈으로" className="flex items-center">
+        {/* h-11: 워드마크 자체는 24px이라 그대로 두면 탭 영역이 44px에 못 미친다 */}
+        <Link href="/" aria-label="홈으로" className="flex h-11 items-center">
           <BrandMark size="md" />
         </Link>
 

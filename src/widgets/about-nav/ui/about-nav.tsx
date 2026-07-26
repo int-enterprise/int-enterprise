@@ -23,7 +23,11 @@ export function AboutNav() {
   return (
     <nav aria-label="기업소개 메뉴" className="border-b border-line">
       <Container>
-        <ul className="-mb-px flex gap-1 overflow-x-auto">
+        {/* 좁은 화면(360px)에서 네 탭이 간신히 들어간다 — 그래서 두 가지를 함께 건다.
+            ① 모바일 좌우 패딩을 줄여 우선 다 들어가게 하고,
+            ② 그래도 넘치면 **화면 끝까지 이어지는 스크롤 띠**가 되게 한다.
+            컨테이너 안쪽에서만 스크롤하면 마지막 탭이 잘린 것처럼 보여 스크롤인 줄 모른다. */}
+        <ul className="-mx-5 -mb-px flex gap-1 overflow-x-auto px-5 sm:mx-0 sm:px-0 [&::-webkit-scrollbar]:hidden">
           {items.map((item) => {
             const active = pathname === item.href;
             return (
@@ -32,7 +36,7 @@ export function AboutNav() {
                   href={item.href}
                   aria-current={active ? "page" : undefined}
                   className={cn(
-                    "inline-flex h-14 items-center whitespace-nowrap border-b-2 px-4 text-base transition-colors sm:px-5",
+                    "inline-flex h-14 min-w-[44px] items-center justify-center whitespace-nowrap border-b-2 px-3 text-base transition-colors sm:px-5",
                     active
                       ? "border-primary font-semibold text-heading"
                       : "border-transparent text-subtle hover:text-heading"

@@ -86,7 +86,8 @@ function ProductPanel({ brand }: { brand: ProductBrand }) {
           <Link
             href={brand.href}
             className={cn(
-              "inline-flex items-center gap-1.5 text-sm font-semibold underline-offset-4 hover:underline",
+              // `py-2 -my-2` — 손가락 타깃 44px. 보이는 위치는 그대로 두고 히트 영역만 넓힌다.
+              "-my-2 inline-flex items-center gap-1.5 py-2 text-sm font-semibold underline-offset-4 hover:underline",
               dark ? "text-accent" : "text-link"
             )}
           >
