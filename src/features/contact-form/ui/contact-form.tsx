@@ -7,8 +7,8 @@ import { ArrowRight, CheckCircle2 } from "lucide-react";
 import { Button, Field, Input, Textarea } from "@/shared/ui";
 import { company } from "@/entities/company";
 import {
-  buildMailto,
   contactSchema,
+  submitInquiry,
   topicLabels,
   type ContactInput,
   type ContactTopic,
@@ -16,8 +16,20 @@ import {
 
 const topics = Object.entries(topicLabels) as [ContactTopic, string][];
 
-export function ContactForm() {
+/**
+ * 문의 폼.
+ *
+ * ⚠️ 제출은 서버(`/api/inquiries`)로 간다. 메일 앱을 여는 방식으로 되돌리지 않는다.
+ * `defaultTopic`으로 문의 유형을 미리 골라 둘 수 있다 —
+ * 제품 페이지의 "구축 문의"·"제품 문의" 버튼이 이 값을 넘긴다.
+ */
+export function ContactForm({
+  defaultTopic = "product",
+}: {
+  defaultTopic?: ContactTopic;
+}) {
   const [sent, setSent] = React.useState(false);
+  const [failed, setFailed] = React.useState<string | null>(null);
 
   const {
     register,
@@ -29,7 +41,7 @@ export function ContactForm() {
   } = useForm<ContactInput>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      topic: "product",
+      topic: defaultTopic,
       name: "",
       company: "",
       email: "",
@@ -39,26 +51,30 @@ export function ContactForm() {
 
   const topic = useWatch({ control, name: "topic" });
 
-  const onSubmit = (data: ContactInput) => {
-    // location.href 직접 대입은 React Compiler의 불변성 규칙에 걸린다. assign()을 쓴다.
-    window.location.assign(buildMailto(company.contact.email, data));
-    setSent(true);
+  const onSubmit = async (data: ContactInput) => {
+    setFailed(null);
+    try {
+      await submitInquiry(data);
+      setSent(true);
+    } catch (e) {
+      setFailed(e instanceof Error ? e.message : "전송에 실패했습니다.");
+    }
   };
 
   if (sent) {
     return (
       <div className="flex flex-col items-start gap-4 rounded-lg bg-canvas-2 p-8">
         <CheckCircle2 className="h-10 w-10 text-navy-40" aria-hidden />
-        <h3 className="text-xl">메일 앱으로 내용을 넘겼습니다</h3>
+        <h3 className="text-xl">문의가 접수됐습니다</h3>
         <p className="text-sm leading-[1.7] text-body">
-          메일 앱이 열리지 않았다면{" "}
+          확인 후 연락드리겠습니다. 급한 건이라면{" "}
           <a
             href={`mailto:${company.contact.email}`}
             className="font-medium text-link underline underline-offset-4"
           >
             {company.contact.email}
           </a>
-          로 직접 보내주세요. 영업일 기준 1–2일 안에 회신드립니다.
+          로도 연락하실 수 있습니다.
         </p>
         <Button
           variant="outline"
@@ -169,14 +185,16 @@ export function ContactForm() {
       </Field>
 
       <div className="flex flex-col gap-3">
+        {failed ? (
+          <p role="alert" className="text-sm text-rose-30">
+            {failed} 잠시 후 다시 시도해 주세요.
+          </p>
+        ) : null}
         <Button type="submit" size="lg" disabled={isSubmitting} className="self-start">
-          문의 보내기
+          {isSubmitting ? "보내는 중…" : "문의 보내기"}
           <ArrowRight className="h-4 w-4" aria-hidden />
         </Button>
-        <p className="text-sm text-subtle">
-          제출하면 기본 메일 앱이 열리고, 입력하신 내용이 자동으로 작성됩니다.
-          별도의 개인정보 저장은 하지 않습니다.
-        </p>
+
       </div>
     </form>
   );

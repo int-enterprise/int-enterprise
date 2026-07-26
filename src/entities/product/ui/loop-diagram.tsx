@@ -85,7 +85,7 @@ export function LoopDiagram({ className }: { className?: string }) {
                 y={y + 5}
                 textAnchor="middle"
                 fill="var(--color-heading)"
-                className="text-[15px]"
+                className="text-[17px]"
               >
                 {stage.step}
               </text>
@@ -94,7 +94,7 @@ export function LoopDiagram({ className }: { className?: string }) {
                 y={y + NODE + 20}
                 textAnchor="middle"
                 fill="var(--color-subtle)"
-                className="text-[12px] uppercase"
+                className="text-[16px] uppercase"
               >
                 {stage.en}
               </text>
@@ -106,7 +106,7 @@ export function LoopDiagram({ className }: { className?: string }) {
       {/* 중심 — 제품 워드마크 */}
       <div className="pointer-events-none absolute inset-0 flex flex-col items-center justify-center gap-1.5">
         <span className="text-3xl text-heading">turing.</span>
-        <span className="text-[11px] uppercase tracking-[0.18em] text-faint">
+        <span className="text-xs uppercase tracking-[0.18em] text-faint">
           Always on
         </span>
       </div>

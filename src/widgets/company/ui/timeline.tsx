@@ -1,51 +1,62 @@
-import { Section, SectionHeader } from "@/shared/ui";
-import { milestones } from "@/entities/company";
-import { cn } from "@/shared/lib";
+import { Container, Section } from "@/shared/ui";
+import { milestonesByYear } from "@/entities/company";
 
-/** 연혁. 가로 스크롤 카드. */
+/**
+ * 기업연혁.
+ *
+ * ⚠️ 가로 스크롤 카드로 만들지 않는다(예전 방식). 카드가 화면 밖으로 나가면
+ * 연혁이 몇 년치인지 한눈에 안 잡히고, 스크롤을 놓치면 뒤쪽을 아예 못 본다.
+ *
+ * 대신 **연도를 큰 활자로 왼쪽에 세우고, 그 해의 일을 오른쪽에 쌓는다.**
+ * 연도는 sticky라 그 해의 항목을 읽는 동안 왼쪽에 붙어 있다.
+ */
 export function Timeline() {
-  return (
-    <Section rhythm="large" soft bleed id="history">
-      <div className="mx-auto w-full max-w-[1120px] px-5 sm:px-8">
-        <SectionHeader eyebrow="History" title="법인보다 과제가 먼저 있었습니다" />
-      </div>
+  const years = milestonesByYear();
 
-      <div className="mt-12 overflow-x-auto pb-4">
-        <ol className="mx-auto flex min-w-max gap-5 px-5 sm:px-8 lg:justify-center">
-          {milestones.map((m) => (
-            <li
-              key={m.date}
-              className={cn(
-                "flex w-[280px] shrink-0 flex-col gap-3 rounded-lg p-7 sm:w-[320px]",
-                m.planned
-                  ? "border border-dashed border-line-strong bg-canvas"
-                  : "border border-line bg-canvas shadow-soft"
-              )}
+  return (
+    <Section rhythm="large" soft id="history">
+      <Container>
+        <div className="flex flex-col gap-3">
+          <p className="text-xs font-semibold uppercase tracking-[0.18em] text-accent">
+            History
+          </p>
+          <h2 className="text-[2rem] leading-[1.16] tracking-[-0.03em] text-display sm:text-[2.6rem]">
+            기업연혁
+          </h2>
+        </div>
+
+        <div className="mt-16 flex flex-col">
+          {years.map(({ year, items }) => (
+            <div
+              key={year}
+              className="grid gap-x-10 border-t border-line py-10 sm:grid-cols-[140px_1fr] lg:grid-cols-[200px_1fr]"
             >
-              <span
-                className={cn(
-                  "font-mono text-sm font-semibold",
-                  m.planned ? "text-faint" : "text-accent"
-                )}
-              >
-                {m.date}
-                {m.planned ? " · 예정" : ""}
-              </span>
-              <h3
-                className={cn(
-                  "text-lg font-semibold leading-[1.4]",
-                  m.planned ? "text-subtle" : "text-heading"
-                )}
-              >
-                {m.title}
-              </h3>
-              <p className="text-sm font-light leading-[1.7] text-body">
-                {m.description}
+              <p className="mb-6 font-mono text-[2.5rem] font-bold leading-none tracking-[-0.03em] text-navy-40/25 sm:sticky sm:top-28 sm:mb-0 sm:self-start sm:text-[3.25rem]">
+                {year}
               </p>
-            </li>
+
+              <ol className="flex flex-col gap-8">
+                {items.map((m) => (
+                  <li key={`${m.date}-${m.title}`} className="flex flex-col gap-2">
+                    <div className="flex items-center gap-3">
+                      <span
+                        aria-hidden
+                        className="h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
+                      />
+                      <span className="font-mono text-xs text-faint">
+                        {m.date.slice(5)}월
+                      </span>
+                    </div>
+                    <h3 className="text-xl font-bold tracking-[-0.02em] text-heading sm:text-2xl">
+                      {m.title}
+                    </h3>
+                  </li>
+                ))}
+              </ol>
+            </div>
           ))}
-        </ol>
-      </div>
+        </div>
+      </Container>
     </Section>
   );
 }

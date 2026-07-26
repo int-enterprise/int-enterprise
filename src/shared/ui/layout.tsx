@@ -39,7 +39,10 @@ const rhythmMap: Record<Rhythm, string> = {
 interface SectionProps extends React.HTMLAttributes<HTMLElement> {
   rhythm?: Rhythm;
   width?: Width;
-  /** 아주 옅은 오프화이트 배경 (교차용, 최소한만) */
+  /**
+   * 아주 옅은 오프화이트 배경 (교차용, 최소한만).
+   * 단색이 아니라 위·아래가 페이드되는 띠다 — 단색이면 섹션 경계가 직선으로 끊긴다.
+   */
   soft?: boolean;
   bleed?: boolean;
 }
@@ -58,7 +61,7 @@ export function Section({
       className={cn(
         "relative w-full scroll-mt-28",
         rhythmMap[rhythm],
-        soft && "bg-canvas-2",
+        soft && "bg-soft-band",
         className
       )}
       {...props}
@@ -68,7 +71,13 @@ export function Section({
   );
 }
 
-/** eyebrow 칩. 앞의 점은 Teal(도형이라 대비 규정 무관). */
+/**
+ * 섹션 라벨.
+ *
+ * ⚠️ 알약(pill) + 틸 점 + 그림자 조합을 쓰지 않는다. 어느 사이트에나 있는 흔한 모양이라
+ * 브랜드가 없어 보인다. 대신 **자간 넓은 대문자 한 줄**로만 둔다 — 조용하고 편집물에 가깝다.
+ * 테두리·배경·아이콘을 다시 붙이지 않는다.
+ */
 export function Eyebrow({
   children,
   className,
@@ -79,11 +88,10 @@ export function Eyebrow({
   return (
     <span
       className={cn(
-        "inline-flex items-center gap-2 rounded-pill border border-line bg-canvas px-3.5 py-1.5 text-xs font-semibold tracking-wide text-subtle shadow-soft",
+        "text-xs font-semibold uppercase tracking-[0.18em] text-accent",
         className
       )}
     >
-      <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-accent" />
       {children}
     </span>
   );
@@ -101,7 +109,8 @@ export function SectionHeader({
   align = "center",
   className,
 }: {
-  eyebrow?: string;
+  /** ReactNode다 — 제품 워드마크(`<ProductMark />`)를 넣을 수 있어야 한다. */
+  eyebrow?: React.ReactNode;
   title: React.ReactNode;
   description?: React.ReactNode;
   action?: React.ReactNode;

@@ -3,7 +3,7 @@ import localFont from "next/font/local";
 import { QueryProvider } from "@/shared/providers";
 import { siteConfig } from "@/shared/config";
 import { OrganizationJsonLd, WebSiteJsonLd } from "@/shared/seo";
-import { AnnouncementBar, Header } from "@/widgets/header";
+import { Header } from "@/widgets/header";
 import { Footer } from "@/widgets/footer";
 import "./globals.css";
 
@@ -90,12 +90,11 @@ export default function RootLayout({
         <WebSiteJsonLd />
         <a
           href="#main"
-          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-pill focus:bg-primary focus:px-5 focus:py-3 focus:text-sm focus:font-medium focus:text-gray-0"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-pill focus:bg-primary focus:px-5 focus:py-3 focus:text-base focus:font-medium focus:text-gray-0"
         >
           본문으로 건너뛰기
         </a>
         <QueryProvider>
-          <AnnouncementBar />
           <Header />
           <main id="main" className="flex flex-1 flex-col">
             {children}

@@ -18,15 +18,18 @@ export function PageHero({
   action,
 }: {
   crumbs: readonly Crumb[];
-  eyebrow?: string;
+  /** ReactNode다 — 제품 워드마크(`<ProductMark />`)를 넣을 수 있어야 한다. */
+  eyebrow?: React.ReactNode;
   title: React.ReactNode;
   description?: React.ReactNode;
   action?: React.ReactNode;
 }) {
   return (
-    <section className="relative overflow-hidden pb-16 pt-16 sm:pb-20 sm:pt-24">
-      <Blob color="teal" size={440} className="left-[-60px] top-[-40px]" />
-      <Blob color="navy" size={380} className="right-[-40px] top-[20px]" delay={4} />
+    <section className="relative pb-16 pt-16 sm:pb-20 sm:pt-24">
+      {/* main이 위쪽에서 잘리므로 첫 섹션의 블롭에 음수 top을 주지 않는다
+          (음수를 주면 콘텐츠 최상단에 직선 자른 자국이 생긴다) */}
+      <Blob color="teal" size={440} className="left-[-60px] top-0" />
+      <Blob color="navy" size={380} className="right-[-40px] top-[40px]" delay={4} />
 
       <Container className="relative flex flex-col items-center gap-6 text-center">
         <nav aria-label="현재 위치">

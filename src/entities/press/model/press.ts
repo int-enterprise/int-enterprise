@@ -4,13 +4,17 @@
  * 실제로 게재된 것만 넣는다. 예정·가상의 기사를 채워 넣지 않는다.
  * 제목은 원문 그대로 옮긴다 — 따옴표·말줄임표·대괄호까지 손대지 않는다.
  *
- * ⚠️ 표기 주의: 아래 기사들은 모두 법인명 "(주)인트"가 아니라
- * "서강대학교 기술경영전문대학원 박현규 교수 연구팀" 명의로 보도됐다.
- * 그래서 이 목록을 "(주)인트가 언론에 나왔다"로 쓰면 사실과 어긋난다.
- * 연구실에서 출발한 회사라는 맥락 위에서 노출한다.
+ * ⚠️ 표기 주의: 아래 기사 중 일부는 법인명 "(주)인트"가 아니라 박현규 교수 연구팀
+ * 명의로 보도됐다. 그래서 이 목록을 "(주)인트가 언론에 나왔다"로 단정해 쓰지 않는다.
+ * 제목에 그 사실이 남아 있어도 우리 카피에서 연구실 서사를 덧붙이지 않는다.
  *
  * 추가 방법: items 배열에 항목을 넣기만 하면 최신순 정렬·랜딩 노출·전체 목록이 함께 갱신된다.
+ * 사진은 `image`를 비워 두면 기사의 og:image가 자동으로 붙는다
+ * (`node scripts/fetch-press-images.mjs`를 한 번 돌려 자산과 매니페스트를 갱신한다).
+ * 매체 기본 로고가 og:image로 잡히는 곳이 있어서, 좋은 사진이 있으면 `image`에 직접 적는다.
  */
+
+import { pressImagesByUrl } from "./press-images.generated";
 
 export type PressKind = "보도자료" | "기고" | "인터뷰";
 
@@ -29,6 +33,8 @@ export interface PressItem {
 }
 
 const items: readonly PressItem[] = [
+  // public/press/에 있는 사진은 전부 쓴다. 사진이 있으면 카드가 사진을 주인으로 조판하고,
+  // 없으면 브랜드 그라디언트 패널로 대체된다(PressCard).
   {
     title: "히포크랏랩스-서강대, '진료 요약 AI' 공동연구",
     outlet: "데일리메디",
@@ -89,9 +95,15 @@ const items: readonly PressItem[] = [
   },
 ];
 
-export const pressItems: readonly PressItem[] = [...items].sort((a, b) =>
-  b.date.localeCompare(a.date)
-);
+export const pressItems: readonly PressItem[] = [...items]
+  .sort((a, b) => b.date.localeCompare(a.date))
+  .map((item) => ({
+    ...item,
+    // 사진은 자동으로 붙는다: 위에 직접 적은 `image`가 우선이고,
+    // 없으면 `node scripts/fetch-press-images.mjs`가 받아 둔 기사 og:image를 쓴다.
+    // 둘 다 없으면 PressCard가 브랜드 그라디언트 패널로 조판한다.
+    image: item.image ?? pressImagesByUrl[item.url],
+  }));
 
 export function hasPress() {
   return pressItems.length > 0;

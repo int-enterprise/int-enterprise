@@ -1,30 +1,24 @@
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
-import { Blob, Button, Card, Section, SectionHeader } from "@/shared/ui";
+import { Blob, Card, ProductMark, Section, SectionHeader } from "@/shared/ui";
 import { offerings, playbooks, positioning } from "@/entities/service";
+import { buildai } from "@/entities/product";
 import { cn } from "@/shared/lib";
 
 /**
  * 사업 구조 — 세 오퍼링을 단계로. 주력(②)만 브랜드 그라디언트로 강조.
  * 아래에 규모별 협업 방식.
+ *
+ * ⚠️ 고객사 이름(offering.proof / playbook.example)을 화면에 찍지 않는다.
+ * 고객사 노출은 랜딩(`/`)의 로고 월 한 곳뿐이다. 데이터는 남겨 두되 렌더하지 않는다.
  */
 export function OfferingsBlock() {
   return (
-    <Section rhythm="large" id="offerings" className="relative overflow-hidden">
+    <Section rhythm="large" id="offerings" className="relative">
       <Blob color="navy" size={480} className="left-[-140px] top-[80px]" />
 
       <SectionHeader
-        eyebrow="기업용 AI 구축"
-        title="검증된 시장에서 벌어, 새 시장을 만듭니다"
+        eyebrow={<ProductMark name={buildai.name} />}
+        title="사업 구조"
         description={positioning.lede}
-        action={
-          <Button asChild variant="ghost" size="md">
-            <Link href="/services">
-              사업 구조 자세히 보기
-              <ArrowRight className="h-4 w-4" aria-hidden />
-            </Link>
-          </Button>
-        }
       />
 
       <div className="mt-14 grid gap-6 lg:grid-cols-3">
@@ -54,11 +48,6 @@ export function OfferingsBlock() {
               <p className="relative text-sm font-light leading-[1.7] text-gray-0/80">
                 {o.headline}
               </p>
-              {o.proof.length > 0 ? (
-                <p className="relative mt-auto pt-4 text-xs text-gray-0/60">
-                  {o.proof.join(" · ")}
-                </p>
-              ) : null}
             </div>
           ) : (
             <Card key={o.no} className="flex flex-col gap-3 p-8" interactive>
@@ -72,11 +61,6 @@ export function OfferingsBlock() {
               <p className="text-sm font-light leading-[1.7] text-body">
                 {o.headline}
               </p>
-              {o.proof.length > 0 ? (
-                <p className="mt-auto pt-4 text-xs text-faint">
-                  {o.proof.join(" · ")}
-                </p>
-              ) : null}
             </Card>
           )
         )}
@@ -90,12 +74,9 @@ export function OfferingsBlock() {
               "flex flex-col gap-2 rounded-md border border-line bg-canvas-2 p-6"
             )}
           >
-            <div className="flex items-baseline justify-between gap-3">
-              <h3 className="text-base font-semibold text-heading">
-                {p.segment}
-              </h3>
-              <span className="text-xs text-faint">{p.example}</span>
-            </div>
+            <h3 className="text-base font-semibold text-heading">
+              {p.segment}
+            </h3>
             <p className="text-sm font-light leading-[1.7] text-body">
               {p.approach}
             </p>

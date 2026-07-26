@@ -1,19 +1,23 @@
 import Link from "next/link";
 import { ArrowRight } from "lucide-react";
 import { Button, Container, Section } from "@/shared/ui";
-import { company } from "@/entities/company";
+import type { ContactTopic } from "@/features/contact-form";
 
 /**
  * 최종 CTA — 브랜드 그라디언트 패널.
+ * 접수는 문의 폼으로 보낸다(메일 주소 버튼을 두지 않는다).
  * 스킬: 포인트 컬러/그라디언트를 큰 면적에, 텍스트 위엔 얹지 않는다.
  * 그래서 그라디언트는 패널 배경으로만 쓰고 그 위에 흰 텍스트를 올린다.
  */
 export function FinalCta({
-  title = "만들고, 지키고, 계속 돌립니다.",
-  body = "지금 운영 중인 AI가 있다면 어떤 점이 아쉬운지, 아직 없다면 어떤 업무를 맡기고 싶은지 알려주세요. 영업일 기준 1–2일 안에 회신드립니다.",
+  title = "도입 문의",
+  body = "지금 운영 중인 AI가 있다면 어떤 점이 아쉬운지, 아직 없다면 어떤 업무를 맡기고 싶은지 알려주세요.",
+  topic,
 }: {
   title?: string;
   body?: string;
+  /** 문의 페이지에서 미리 선택될 문의 유형 */
+  topic?: ContactTopic;
 }) {
   return (
     <Section rhythm="large">
@@ -35,17 +39,13 @@ export function FinalCta({
             <p className="max-w-[52ch] text-lg font-light leading-[1.7] text-gray-0/80">
               {body}
             </p>
+            {/* ⚠️ 메일 링크를 다시 붙이지 않는다. 접수는 폼으로 받는다. */}
             <div className="flex flex-wrap items-center justify-center gap-3 pt-2">
               <Button asChild size="lg" variant="accent">
-                <Link href="/contact">
-                  문의하기
+                <Link href={topic ? `/contact?type=${topic}` : "/contact"}>
+                  문의 남기기
                   <ArrowRight className="h-4 w-4" aria-hidden />
                 </Link>
-              </Button>
-              <Button asChild size="lg" variant="onDark">
-                <a href={`mailto:${company.contact.email}`}>
-                  {company.contact.email}
-                </a>
               </Button>
             </div>
           </div>

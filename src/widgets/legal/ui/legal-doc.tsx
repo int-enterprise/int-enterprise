@@ -40,7 +40,7 @@ export function LegalDoc({
               </h2>
 
               {section.bodies?.map((p) => (
-                <p key={p} className="text-[0.9375rem] leading-[1.8] text-body">
+                <p key={p} className="text-base leading-[1.8] text-body">
                   {p}
                 </p>
               ))}
@@ -50,7 +50,7 @@ export function LegalDoc({
                   {section.items.map((b) => (
                     <li
                       key={b}
-                      className="flex items-start gap-3 text-[0.9375rem] leading-[1.75] text-gray-75"
+                      className="flex items-start gap-3 text-base leading-[1.75] text-gray-75"
                     >
                       <span
                         aria-hidden

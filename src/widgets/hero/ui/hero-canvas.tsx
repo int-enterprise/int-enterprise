@@ -31,18 +31,21 @@ interface ShapeDef {
   floatI: number;
 }
 
-// 씬은 우측 패널을 채운다. 왼쪽 1/3(헤드라인이 겹치는 구역)은 비우고
-// 오른쪽으로 뭉쳐 배치한다. 모든 x는 0.6 이상.
+// 씬은 히어로 **가운데 칸**을 채운다. 좌(워드마크)·우(슬로건) 사이에 놓이므로
+// 도형은 원점을 기준으로 좌우 균형이 맞아야 한다. x는 대략 -2.1 ~ 2.1.
+//
+// ⚠️ 예전엔 우측 패널 배경이라 도형이 전부 오른쪽(x 0.6~4.9)에 몰려 있었다.
+// 그 좌표를 그대로 쓰면 가운데 칸에서 오른쪽으로 치우쳐 잘린다.
 const SHAPES: ShapeDef[] = [
-  { kind: "box", position: [1.2, 0.5, 0], scale: 1.15, color: NAVY, speed: 1.3, rot: 0.8, floatI: 1.0 },
-  { kind: "sphere", position: [3.0, 1.7, -0.8], scale: 0.6, color: TEAL, speed: 1.7, rot: 0.3, floatI: 1.3 },
-  { kind: "box", position: [3.2, -0.7, -0.6], scale: 0.78, color: LIGHT, speed: 1.1, rot: 1.0, floatI: 0.9 },
-  { kind: "capsule", position: [0.9, -1.6, 0.5], scale: 0.5, color: TEAL, speed: 1.9, rot: 0.6, floatI: 1.2 },
-  { kind: "box", position: [4.4, 0.9, -1.2], scale: 0.66, color: NAVY, speed: 1.4, rot: 1.1, floatI: 1.0 },
-  { kind: "sphere", position: [0.7, -0.8, -0.4], scale: 0.44, color: LIGHT, speed: 2.0, rot: 0.3, floatI: 1.4 },
-  { kind: "torus", position: [4.2, -0.9, -1.6], scale: 0.62, color: NAVY, speed: 1.5, rot: 1.2, floatI: 0.9 },
-  { kind: "sphere", position: [2.2, -1.9, -0.2], scale: 0.4, color: TEAL, speed: 1.8, rot: 0.3, floatI: 1.3 },
-  { kind: "capsule", position: [4.9, -1.7, -0.6], scale: 0.4, color: LIGHT, speed: 1.85, rot: 0.7, floatI: 1.15 },
+  { kind: "box", position: [-1.6, 0.5, 0], scale: 1.15, color: NAVY, speed: 1.3, rot: 0.8, floatI: 1.0 },
+  { kind: "sphere", position: [0.2, 1.7, -0.8], scale: 0.6, color: TEAL, speed: 1.7, rot: 0.3, floatI: 1.3 },
+  { kind: "box", position: [0.4, -0.7, -0.6], scale: 0.78, color: LIGHT, speed: 1.1, rot: 1.0, floatI: 0.9 },
+  { kind: "capsule", position: [-1.9, -1.6, 0.5], scale: 0.5, color: TEAL, speed: 1.9, rot: 0.6, floatI: 1.2 },
+  { kind: "box", position: [1.6, 0.9, -1.2], scale: 0.66, color: NAVY, speed: 1.4, rot: 1.1, floatI: 1.0 },
+  { kind: "sphere", position: [-2.1, -0.8, -0.4], scale: 0.44, color: LIGHT, speed: 2.0, rot: 0.3, floatI: 1.4 },
+  { kind: "torus", position: [1.4, -0.9, -1.6], scale: 0.62, color: NAVY, speed: 1.5, rot: 1.2, floatI: 0.9 },
+  { kind: "sphere", position: [-0.6, -1.9, -0.2], scale: 0.4, color: TEAL, speed: 1.8, rot: 0.3, floatI: 1.3 },
+  { kind: "capsule", position: [2.1, -1.7, -0.6], scale: 0.4, color: LIGHT, speed: 1.85, rot: 0.7, floatI: 1.15 },
 ];
 
 function BrandMaterial({ color }: { color: string }) {

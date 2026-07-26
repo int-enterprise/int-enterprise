@@ -29,7 +29,7 @@ function WorkCard({ item }: { item: Reference }) {
           {item.stage}
         </span>
       </div>
-      <p className="min-h-[72px] text-[0.95rem] font-light leading-[1.6] text-body">
+      <p className="min-h-[76px] text-base font-light leading-[1.6] text-body">
         {item.title}
       </p>
       <div className="flex items-center justify-between font-mono text-xs text-faint">
@@ -42,11 +42,11 @@ function WorkCard({ item }: { item: Reference }) {
 
 export function WorkMarquee() {
   return (
-    <Section rhythm="large" soft bleed className="overflow-hidden">
+    <Section rhythm="large" soft bleed id="references" className="overflow-hidden">
       <Container>
         <SectionHeader
           eyebrow="Selected work"
-          title="한 분야에 갇히지 않고, 여섯 분야에서 직접 만들었습니다"
+          title="수행 과제"
           description="대기업부터 공공기관·스타트업까지, 업종이 다른 현장에서 AI를 설계하고 운영해 왔습니다."
         />
       </Container>
@@ -66,7 +66,7 @@ export function WorkMarquee() {
 
       <Container className="mt-12 flex justify-center">
         <Link
-          href="/services#references"
+          href="/products/buildai#references"
           className="inline-flex items-center gap-1.5 text-sm font-semibold text-link underline-offset-4 hover:underline"
         >
           수행 과제 전부 보기

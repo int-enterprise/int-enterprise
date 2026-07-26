@@ -3,11 +3,15 @@
 비즈니스 도메인 객체와 그것을 표현하는 작은 컴포넌트. 인터랙션 없는 "데이터의 시각화" 레이어.
 
 ## 슬라이스 목록
-- `company/` — 법인 사실 정보(`company`, `corporateFacts`, `copyright()`), 연혁(`milestones`), 원칙(`principles`), 강점(`strengths`), 대표(`founder`).
-- `client/` — 고객사(`clients`), 파트너(`partners`), 수행 과제(`references`), 커버리지 집계(`coverage`). 표시용 `ClientLogo`.
-- `service/` — 세 가지 서비스 오퍼링(`offerings`), 포지셔닝(`positioning`), 고객 규모별 협업 방식(`playbooks`).
-- `product/` — turing. 정보(`product`), 5개 Agent 루프(`loopStages`), 성능열화 6개 축(`decayAxes`), 보안 계층(`harness`). 표시용 `LoopDiagram`.
-- `careers/` — 채용 직군(`roles`), 일하는 방식(`workingPolicies`), 지원 안내(`applicationGuide`).
+- `company/` — 법인 사실 정보(`company`, `corporateFacts`, `copyright()`), 연혁(`milestones`), 원칙(`principles`), 차별점 대조표(`differences` + 근거 지표 `proofMetric`), 대표(`founder` — 인사말 `greeting` 포함), 팀(`team`, `teamSize` — 연구개발계획서에서 가져온 실명·약력·사진).
+  - `milestones`는 **고객사 이름 없이** 유형으로 적는다. `milestonesByYear()`가 연도별로 묶어 준다.
+- `client/` — 고객사(`clients`), 파트너(`partners`), 수행 과제(`references`), 커버리지 집계(`coverage`), 랜딩 로고 월(`wallLogos`). 표시용 `ClientLogo`.
+  - 로고 크기(`logoWidth`/`logoHeight`)는 **실제 파일 크기**여야 한다. `node scripts/prepare-client-logos.mjs`가 출력한 값을 적고 감으로 채우지 않는다(비율이 틀리면 로고가 찌그러진다).
+  - `wallLogos`의 `unclassified: true` 항목은 고객사/파트너 구분이 확인되지 않은 곳이다. 카피에서 "고객사"로 단정하지 않는다.
+- `service/` — 세 가지 서비스 오퍼링(`offerings`), 포지셔닝(`positioning`), 구축 절차(`buildSteps`), 다뤄 온 분야(`buildFields` + `scopeNote`), 고객 유형별 협업 방식(`playbooks` — 대기업·공공기관·중견기업·스타트업 4개).
+  - `buildFields`의 여섯 분야는 **다 해 본 목록이 아니라 예시**다. 카피에서 여섯을 한계처럼 쓰지 않는다(업종을 가리지 않는 것이 강점).
+- `product/` — 두 제품 브랜드(`productBrands`, `buildai`, `turing` — 표기는 **`buildAI.` / `turing.`** 고정, 조판은 `<ProductMark />`), turing. 정보(`product`), 5개 Agent 루프(`loopStages`), 성능열화 6개 축(`decayAxes`), 보안 계층(`harness`). 표시용 `LoopDiagram`, 성능 곡선 `DecayChart`(개념 도해 — 눈금 숫자를 넣지 않는다).
+- `careers/` — 채용 기준(`whoWeWant`), 조직문화(`workStyles`), 복리후생(`benefits`), 채용 공고(`jobPostings` — 비면 '공고 없음'), 채용 절차(`hiringProcess`), 지원 안내(`applicationGuide`).
 - `press/` — 언론 보도(`pressItems`)와 조회 헬퍼.
 
 ## 사실 관계의 출처

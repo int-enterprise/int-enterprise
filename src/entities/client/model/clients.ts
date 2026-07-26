@@ -12,7 +12,17 @@ export type Stage = "현업 운영" | "시범 적용" | "개발" | "성능 평�
  * ⚠️ 고객사·파트너의 외부 웹사이트 링크를 넣지 않는다.
  * 방문자를 고객사 사이트로 내보내지 않는다는 결정이다. website 필드를 다시 만들지 말 것.
  */
-export interface Client {
+/**
+ * 로고 자산의 실제 크기.
+ * next/image에 정확한 비율을 넘겨야 로고가 찌그러지지 않는다.
+ * 값은 `node scripts/prepare-client-logos.mjs`가 출력해 준다 — 감으로 적지 않는다.
+ */
+export interface LogoSize {
+  logoWidth: number;
+  logoHeight: number;
+}
+
+export interface Client extends Partial<LogoSize> {
   name: string;
   enName?: string;
   /** 회사를 한 줄로 설명하는 수식. 이름만으로 알기 어려운 곳에만 채운다. */
@@ -38,13 +48,17 @@ export const clients: readonly Client[] = [
     name: "LG CNS",
     enName: "LG CNS",
     segment: "대기업",
-    logoUrl: "/clients/lgcns.svg",
+    logoUrl: "/clients/lg-cns.svg",
+    logoWidth: 119,
+    logoHeight: 28,
   },
   {
     name: "현대NGV",
     enName: "Hyundai NGV",
     segment: "대기업",
     logoUrl: "/clients/hyundai-ngv.svg",
+    logoWidth: 191,
+    logoHeight: 54,
   },
   {
     name: "STEPI",
@@ -52,6 +66,8 @@ export const clients: readonly Client[] = [
     note: "과학기술정책연구원",
     segment: "공공",
     logoUrl: "/clients/stepi.png",
+    logoWidth: 318,
+    logoHeight: 52,
   },
   {
     name: "히포크랏랩스",
@@ -132,7 +148,7 @@ export const references: readonly Reference[] = [
 ] as const;
 
 /** 사업 파트너. 출처: docs/company-profile.md §5 파트너십 */
-export interface Partner {
+export interface Partner extends Partial<LogoSize> {
   name: string;
   role: string;
   logoUrl?: string;
@@ -143,12 +159,37 @@ export const partners: readonly Partner[] = [
     name: "씨엔티테크",
     role: "TIPS 운영사",
     logoUrl: "/clients/cnt-tech.png",
+    logoWidth: 122,
+    logoHeight: 120,
   },
-  { name: "영림원소프트랩", role: "기술 파트너" },
-  { name: "OGQ", role: "기술 파트너" },
-  { name: "University of Cambridge", role: "연구 협력" },
-  { name: "KIAT", role: "공공 협력" },
-  { name: "KEIT", role: "공공 협력" },
+  {
+    name: "영림원소프트랩",
+    role: "기술 파트너",
+    logoUrl: "/clients/younglimwon.png",
+    logoWidth: 591,
+    logoHeight: 120,
+  },
+  {
+    name: "OGQ",
+    role: "기술 파트너",
+    logoUrl: "/clients/ogq.png",
+    logoWidth: 230,
+    logoHeight: 78,
+  },
+  {
+    name: "University of Cambridge",
+    role: "연구 협력",
+    logoUrl: "/clients/cambridge.png",
+    logoWidth: 195,
+    logoHeight: 47,
+  },
+  {
+    name: "KEIT",
+    role: "공공 협력",
+    logoUrl: "/clients/keit.png",
+    logoWidth: 276,
+    logoHeight: 120,
+  },
 ] as const;
 
 /** 분야 수와 고객층 수 — "5개 분야 × 4개 고객층"이라는 강점의 근거. */

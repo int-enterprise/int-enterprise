@@ -34,18 +34,22 @@ export function BrandMark({
   className?: string;
 }) {
   const h = heights[size];
+  const w = Math.round(h * RATIO);
   const src =
     tone === "white" ? "/brand/int-logo-white.png" : "/brand/int-logo.png";
 
+  // ⚠️ 폭·높이를 둘 다 인라인으로 고정한다.
+  // `w-auto`로 두면 flex column(align-items: stretch) 안에서 컨테이너 폭까지 늘어나
+  // 워드마크가 가로로 찌그러진다(푸터에서 실제로 그랬다).
   return (
     <Image
       src={src}
       alt="int."
-      width={Math.round(h * RATIO)}
+      width={w}
       height={h}
       priority
-      className={cn("h-auto w-auto select-none", className)}
-      style={{ height: h }}
+      className={cn("max-w-none shrink-0 select-none", className)}
+      style={{ width: w, height: h }}
     />
   );
 }

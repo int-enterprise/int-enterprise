@@ -1,36 +1,51 @@
-export interface Strength {
-  label: string;
-  title: string;
-  body: string;
-}
-
 /**
  * 왜 (주)인트인가. 전부 확인 가능한 사실에 근거한다.
  *
  * ⚠️ TIPS를 강점 목록에 넣지 않는다. TIPS는 turing.이라는 한 솔루션의 R&D 자금원이자
  * 검증 트랙일 뿐 회사의 정체성이 아니다 (docs/company-profile.md §10).
+ * ⚠️ **고객사 이름을 쓰지 않는다.** 이 목록은 제품 페이지에 나가는데,
+ * 고객사 노출은 랜딩(`/`)의 로고 월 한 곳뿐이다. 유형으로만 적는다.
+ * ⚠️ 이 목록은 buildAI. 페이지에 쓰인다 — **turing. 이야기를 섞지 않는다.**
+ *
+ * 형식이 산문이 아니라 **대조표**인 이유:
+ * "차별점"은 무엇과 다른지를 말할 때만 성립한다. 문단으로 풀면 자랑이 되고 길어진다.
+ * 왼쪽(보통의 AI 개발사)과 오른쪽(우리)을 나란히 두면 한 줄로 끝난다.
  */
-export const strengths: readonly Strength[] = [
+export interface Difference {
+  /** 비교하는 항목 */
+  aspect: string;
+  /** 보통의 AI 개발사 */
+  typical: string;
+  /** (주)인트 */
+  ours: string;
+}
+
+export const differences: readonly Difference[] = [
   {
-    label: "개발사이면서 운영사",
-    title: "납품에서 끝내지 않습니다",
-    body: "대부분의 AI 개발사는 만들어 넘기는 순간 관계가 끝납니다. (주)인트는 만든 AI를 계속 운영하며 데이터를 쌓고, 그 데이터로 turing.을 키웁니다.",
+    aspect: "관계가 끝나는 시점",
+    typical: "납품하면 끝",
+    ours: "운영하는 동안 계속",
   },
   {
     // 숫자는 entities/client의 references·clients와 맞춰야 한다.
     // (레이어 규칙상 여기서 import할 수 없으므로 값이 바뀌면 함께 고친다)
-    label: "6개 분야 · 4개 고객층",
-    title: "한 분야에 갇혀 있지 않습니다",
-    body: "IT, 의료, 채용·인사, 모빌리티, 마케팅, 콘텐츠를 대기업부터 공공기관·스타트업까지 직접 다뤘습니다. 업종이 달라도 무엇이 문제가 되는지 압니다.",
+    aspect: "다뤄 본 범위",
+    typical: "한두 업종에 특화",
+    ours: "6개 분야 · 4개 고객층",
   },
   {
-    label: "현업 운영 레퍼런스",
-    title: "프로토타입이 아니라 실제로 쓰이고 있습니다",
-    body: "LG CNS와의 1년 공동연구에서 개발 생산성 26.1% 향상을 입증하고 국제 학술지에 논문으로 등재했습니다. 그 결과물은 Career Lens로 현업 채용 업무에 쓰이고 있습니다.",
-  },
-  {
-    label: "하나의 순환 루프",
-    title: "평가부터 복구까지 끊기지 않습니다",
-    body: "경쟁 솔루션은 평가·관측·보안을 각각 다른 계층으로 다룹니다. turing.은 다섯 단계를 하나의 루프로 묶었고, 이 구조로 특허를 출원했습니다.",
+    aspect: "넘길 때의 상태",
+    typical: "데모",
+    ours: "현업에서 매일 돌아가는 상태",
   },
 ] as const;
+
+/**
+ * 대조표만으로는 주장이 되고 만다. 숫자로 받쳐 주는 근거 하나.
+ * ⚠️ 값을 바꾸려면 근거 문서를 먼저 확인한다 (docs/company-profile.md).
+ */
+export const proofMetric = {
+  value: "26.1%",
+  label: "개발 생산성 향상",
+  note: "국내 대형 IT 서비스 기업과의 1년 공동연구에서 입증하고, 국제 학술지에 논문으로 등재했습니다. 그 결과물은 지금 현업 채용 업무에 쓰이고 있습니다.",
+} as const;

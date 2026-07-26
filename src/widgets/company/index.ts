@@ -1,5 +1,4 @@
-export { OriginSection } from "./ui/origin-section";
+export { GreetingSection } from "./ui/greeting-section";
 export { Timeline } from "./ui/timeline";
-export { FounderSection } from "./ui/founder-section";
-export { PartnersSection } from "./ui/partners-section";
+export { TeamSection } from "./ui/team-section";
 export { LocationSection } from "./ui/location-section";

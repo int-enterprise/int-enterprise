@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { cn } from "@/shared/lib";
 
-const SRC = "/turing/console.png";
+const SRC = "/products/turing-console.png";
 const W = 1440;
 const H = 1030;
 

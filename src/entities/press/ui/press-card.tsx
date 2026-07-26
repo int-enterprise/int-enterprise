@@ -77,7 +77,7 @@ export function PressCard({
           <time dateTime={item.date} className="font-mono text-faint">
             {formatPressDate(item.date)}
           </time>
-          <span className="ml-auto rounded-pill border border-line px-2.5 py-1 text-[11px] text-subtle">
+          <span className="ml-auto shrink-0 rounded-pill border border-line px-2.5 py-1 text-xs text-subtle">
             {item.kind}
           </span>
         </div>

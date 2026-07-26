@@ -66,6 +66,24 @@
   --color-accent: #40e0d0;
   --color-link: #052699;
 
+  /* ── 타이포 스케일 ────────────────────────────────────────────────
+     **최소 17px 규칙.** 라벨·캡션·메타까지 그 아래로 내려가지 않는다.
+     Tailwind 기본값(xs 12px / sm 14px)은 이 사이트에서 너무 작아 전부 덮어썼다.
+     따라서 `text-xs`는 "가장 작은 글자"라는 뜻이고 12px이 아니다.
+     더 작게 쓰고 싶어도 임의 크기(text-[13px] 등)를 새로 만들지 않는다. */
+  --text-xs: 1.0625rem;
+  --text-xs--line-height: 1.5;
+  --text-sm: 1.125rem;
+  --text-sm--line-height: 1.6;
+  --text-base: 1.1875rem;
+  --text-base--line-height: 1.7;
+  --text-lg: 1.3125rem;
+  --text-lg--line-height: 1.65;
+  --text-xl: 1.4375rem;
+  --text-xl--line-height: 1.5;
+  --text-2xl: 1.6875rem;
+  --text-2xl--line-height: 1.4;
+
   /* ── 폰트 ─────────────────────────────────────────────────────────
      한 패밀리(Pretendard)로 weight·size 위계를 만든다.
      기술 수치·라벨엔 모노를 곁들여 성격을 준다. */
@@ -109,11 +127,27 @@
     -webkit-text-size-adjust: 100%;
   }
 
+  /* 그라디언트 블롭은 섹션 경계를 넘어 번져야 배경이 이어져 보인다.
+     그래서 섹션마다 걸던 overflow-hidden을 걷어냈다(경계에 직선 자른 자국이 생겼다).
+     대신 좌우로 삐져나온 만큼만 여기서 자른다.
+
+     ⚠️ 이 규칙을 `html`로 올리지 않는다. 루트의 overflow는 뷰포트로 전파되면서
+     clip이 제 역할을 못 해 가로 스크롤이 실제로 살아난다(측정해서 확인했다).
+     ⚠️ overflow-x: hidden이 아니라 **clip**이다. hidden은 스크롤 컨테이너를 만든다.
+     ⚠️ 세로는 visible이어야 한다. 잘리면 섹션 사이로 번지지 못한다.
+     ⚠️ main의 위·아래 끝에 걸치는 블롭은 여기서 잘려 자른 자국이 보인다.
+     첫 섹션의 블롭에 음수 top을 주지 않는다. */
+  main {
+    overflow-x: clip;
+    overflow-y: visible;
+  }
+
   body {
     background: var(--color-canvas);
     color: var(--color-body);
     font-family: var(--font-sans);
-    font-size: 16px;
+    /* 클래스 없이 상속받는 텍스트도 작아지지 않게 스케일과 맞춘다. */
+    font-size: 1.0625rem;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     word-break: keep-all;
@@ -133,10 +167,7 @@
     text-wrap: balance;
   }
 
-  ::selection {
-    background: var(--color-accent);
-    color: var(--color-navy-40);
-  }
+  /* ⚠️ ::selection을 브랜드 색으로 덮지 않는다. 드래그 색은 OS/브라우저 기본이 편하다. */
 
   :focus-visible {
     outline: 2px solid var(--color-link);
@@ -164,6 +195,19 @@
       transparent 70%
     ),
     radial-gradient(60% 60% at 85% 30%, rgba(5, 38, 153, 0.14), transparent 70%);
+}
+
+/* 옅은 오프화이트 띠(Section의 soft).
+   단색으로 칠하면 섹션의 위·아래가 직선으로 끊겨 "자른 자국"이 보인다.
+   위아래를 투명으로 페이드해 배경이 이어지게 한다. */
+@utility bg-soft-band {
+  background-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--color-canvas-2) 14%,
+    var(--color-canvas-2) 86%,
+    transparent 100%
+  );
 }
 
 /* 글래스 카드 — 그라디언트/이미지 위에 얹을 때만. 흰 배경 위에선 안 보인다. */

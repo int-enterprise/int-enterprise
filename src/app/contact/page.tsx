@@ -6,7 +6,7 @@ import { LocationSection } from "@/widgets/company";
 export const metadata = buildMetadata({
   title: "문의하기",
   description:
-    "AI 구축, turing. 도입, 파트너십, 채용, 취재 문의를 받습니다. 영업일 기준 1–2일 안에 회신드립니다.",
+    "AI 구축, turing. 도입, 파트너십, 채용, 취재 문의를 받습니다.",
   path: "/contact",
   keywords: [
     "(주)인트 문의",
@@ -17,7 +17,17 @@ export const metadata = buildMetadata({
   ],
 });
 
-export default function ContactPage() {
+/** `?type=`으로 넘어온 값만 문의 유형으로 인정한다(임의 값 방어). */
+const TOPICS = ["product", "partnership", "recruit", "press", "etc"] as const;
+
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>;
+}) {
+  const { type } = await searchParams;
+  const defaultTopic = TOPICS.find((t) => t === type);
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -29,9 +39,9 @@ export default function ContactPage() {
       <PageHero
         crumbs={[{ label: "문의하기" }]}
         eyebrow="Contact"
-        title="어떤 이야기든 좋습니다"
+        title="문의하기"
       />
-      <ContactDetail />
+      <ContactDetail defaultTopic={defaultTopic} />
       <LocationSection />
     </>
   );

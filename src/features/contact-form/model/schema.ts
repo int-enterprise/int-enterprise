@@ -28,24 +28,22 @@ export const topicLabels: Record<ContactTopic, string> = {
 };
 
 /**
- * 폼 제출은 서버 없이 사용자의 메일 클라이언트로 넘긴다.
- * 백엔드가 생기면 이 함수 대신 Server Action을 붙이면 된다.
+ * 문의를 서버로 보낸다.
+ *
+ * ⚠️ 예전엔 `mailto:`로 사용자의 메일 앱을 열었다. 메일 앱이 없는 환경에서는
+ * 아무 일도 일어나지 않고, 보냈는지 확인할 방법도 없어서 접수 경로로는 부적절했다.
+ * 지금은 `/api/inquiries`로 POST 한다(그 라우트는 아직 목업이다).
  */
-export function buildMailto(to: string, data: ContactInput) {
-  const subject = `[${topicLabels[data.topic]}] ${data.name}${
-    data.company ? ` · ${data.company}` : ""
-  }`;
-  const body = [
-    `이름: ${data.name}`,
-    `회사: ${data.company || "-"}`,
-    `이메일: ${data.email}`,
-    `유형: ${topicLabels[data.topic]}`,
-    "",
-    "──────────",
-    data.message,
-  ].join("\n");
-
-  return `mailto:${to}?subject=${encodeURIComponent(
-    subject
-  )}&body=${encodeURIComponent(body)}`;
+export async function submitInquiry(data: ContactInput) {
+  const res = await fetch("/api/inquiries", {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    body: JSON.stringify(data),
+  });
+  if (!res.ok) {
+    const body = (await res.json().catch(() => null)) as
+      | { error?: string }
+      | null;
+    throw new Error(body?.error ?? "전송에 실패했습니다.");
+  }
 }

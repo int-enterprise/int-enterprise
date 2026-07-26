@@ -7,6 +7,8 @@
 - `ui/` — 프리미티브. `BrandMark` `Button` `Card`/`GlassCard`/`GlassCardDark` `CardTitle`/`CardText` `Field`(Input·Textarea·Label) `Container`/`Section`/`SectionHeader`/`Eyebrow`/`Blob` `Marquee` `DefinitionList`.
 - `lib/` — 유틸 (`cn`).
 - `config/` — `site.ts`(브랜드 메타데이터, `navItems`, `ctaNav`, `legalNav`).
+  `navItems`는 탭 구조의 단일 진실 공급원이다 — `children`이 있으면 헤더가 드롭다운으로,
+  모바일 메뉴가 들여쓴 목록으로, 푸터가 사이트맵 열로 그린다. 세 곳을 따로 고치지 않는다.
 - `assets/` — `fonts/PretendardVariable.woff2`.
 - `providers/` — `QueryProvider`.
 - `seo/` — JSON-LD, `buildMetadata`.
@@ -16,6 +18,9 @@
 
 - **색**: `gray-0…100`, `navy-10…40`, `teal-10/30/40`, `rose-30`(폼 검증). 시맨틱: `canvas` `canvas-2`(옅은 오프화이트) `card` `line`/`line-strong`, 텍스트 `heading`(거의 검정) `display`(Navy) `body` `subtle` `faint`, `primary` `accent` `link`.
 - **타이포**: 헤딩 Bold(700)+자간 `-0.025em`(전역 base). 본문 `font-light`+`leading-[1.7]`. 수치·라벨엔 `font-mono`.
+  **스케일 최소 17px** — Tailwind 기본값을 덮어썼다: `text-xs`=1.0625rem · `text-sm`=1.125rem · `text-base`=1.1875rem ·
+  `text-lg`=1.3125rem · `text-xl`=1.4375rem · `text-2xl`=1.6875rem. `text-xs`가 이제 "가장 작은 글자"다.
+  더 작게 쓰고 싶어도 임의 크기를 새로 만들지 않는다.
 - **반경**: `radius-lg`(24) `radius-md`(16) `radius-sm`(12) `radius-pill`.
 - **그림자**: `shadow-soft`(카드) `shadow-lift`(hover·강조) `shadow-glow`(틸 발광).
 - **그라디언트**: `bg-brand-gradient`(Navy→Teal, 패널·CTA 배경) `bg-mist-gradient`. **텍스트 위에 쓰지 않는다.**

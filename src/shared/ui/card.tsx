@@ -79,7 +79,7 @@ export const CardText = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <p
     ref={ref}
-    className={cn("text-[0.95rem] font-light leading-[1.7] text-body", className)}
+    className={cn("text-base font-light leading-[1.7] text-body", className)}
     {...props}
   />
 ));

@@ -1,10 +1,12 @@
 export { company, copyright, corporateFacts } from "./model/company";
 export type { Company } from "./model/company";
-export { milestones } from "./model/milestones";
+export { milestones, milestonesByYear } from "./model/milestones";
 export type { Milestone } from "./model/milestones";
 export { principles } from "./model/principles";
 export type { Principle } from "./model/principles";
-export { strengths } from "./model/strengths";
-export type { Strength } from "./model/strengths";
+export { differences, proofMetric } from "./model/strengths";
+export type { Difference } from "./model/strengths";
 export { founder } from "./model/founder";
 export type { Founder, CredentialGroup } from "./model/founder";
+export { team, teamSize } from "./model/team";
+export type { Member } from "./model/team";

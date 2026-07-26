@@ -9,24 +9,33 @@
 - `footer/` — 사이트맵·법인 정보·카피라이트.
 - `page-hero/` — 하위 페이지 공통 상단(브레드크럼/eyebrow/타이틀/설명/aside).
 
-### 랜딩 (`/`)
-1. `hero/` — 회사의 한 줄 정의 + 세 오퍼링 색인. 주력(②)만 톤을 올린다.
-2. `clients/` → `ClientWall` — 고객사 격자. 한 화면에 전부 보이는 것이 목적이라 마퀴가 아니다.
-3. `offerings/` → `OfferingsSection` — 세 가지 서비스 오퍼링. 나열이 아니라 단계.
-4. `problem/` → `ProblemSection` — 성능열화 6개 축. turing.의 존재 이유를 만든다.
-5. `turing/` → `TuringSection` — 5개 Agent 루프. 랜딩 유일의 다크 구간.
-6. `strengths/` — 왜 (주)인트인가.
-7. `press/` — 언론 보도. 데이터가 없으면 **섹션 자체를 렌더하지 않는다.**
-8. `timeline/` — 연혁. 가로 스크롤.
-9. `cta-band/` — 페이지 끝 전환 구간.
+### 랜딩 (`/`) — 담백하게
+랜딩은 **슬로건 하나와 두 사업(BM)만** 짚는다. 제품 상세를 여기로 끌어오지 않는다.
+성능열화 6개 축·5개 Agent 루프·수행 과제 목록이 랜딩에 있으면 사업이 두 개인 회사를 잘못 그린 것이다.
+
+1. `hero/` — 슬로건 + 회사의 한 줄 정의 + 버튼 두 개(도입 문의 / 인재채용). 우측 3D.
+2. `products/` → `ProductDuo` — 두 BM(buildAI. / turing.)을 나란히. 주력(turing.)만 톤을 올린다.
+3. `logo-wall/` → `LogoWall` — 주요 고객사 및 파트너. 고객사·파트너를 **한 구간에 합쳐** 보여 준다
+   (일부 로고는 관계가 확인되지 않아 "고객사"로 단정할 수 없다). 로고 없는 파트너는 아래 한 줄로.
+4. `press/` — 언론 보도. 데이터가 없으면 **섹션 자체를 렌더하지 않는다.**
+5. `cta/` → `FinalCta` — 페이지 끝 전환 구간.
+
+`clients/` → `ClientLogos`(고객사만 + 수행 과제 집계 캡션)는 제품 페이지에서 쓴다.
 
 ### 하위 페이지
-- `offerings/` → `OfferingsSection` `PlaybookSection`, `references/` → `ReferenceList` — `/services`
-- `problem/` + `turing/` → `TuringDetail` — `/turing`
-- `company/` → `PrinciplesSection` `FounderSection` `PartnersSection` `LocationSection` — `/about`
+- `products/` → `ProductDuo` — `/products` (탭 랜딩)
+- `offerings/` + `work/` + `clients/` + `strengths/` — `/products/buildai`
+- `decay/` + `turing/` — `/products/turing`
+- `company/` → `GreetingSection` `Timeline` `TeamSection` `LocationSection` — `/about`
+  (파트너십은 랜딩의 `LogoWall`이 맡는다 — `PartnersSection`은 없앴다)
 - `careers/` → `CareersDetail` — `/careers`
+- `press/` → `PressList` — `/press`
 - `contact/` → `ContactDetail` — `/contact`
 - `legal/` → `LegalDoc` — `/privacy` `/terms` `/delete-account` 공통 조판
+
+### 서강대 언급은 한 곳뿐
+`company/ui/team-section.tsx`의 설명 한 문장에서만 서강대학교 연구실 출발을 말한다.
+히어로·고지 바·보도 섹션·메타데이터로 이 서사를 옮겨 쓰지 않는다.
 
 ## 규칙
 - widget은 다른 widget을 import 하지 않는다(수평 격리). 조립은 `app/`에서.
@@ -45,9 +54,11 @@
 | Hero | 좌 텍스트 / 우 색인 목록 (비대칭) |
 | ClientWall | 테두리 격자 (표) |
 | Offerings | 3행 목록, 주력 행만 배경 반전 |
-| Problem | 상단 2열 + 하단 3열 번호 목록 |
-| Turing | 다크 풀블리드 + 5분할 띠 |
-| Strengths | 2열 활자 위계 (테두리 없음) |
+| BuildProcess | 넓은 사진 띠 + 4단 가로 레일 |
+| BuildScope | 아이콘 행 2단(분야 6 / 고객 유형 4) |
+| Problem (decay) | 아이콘 + 한 줄 3열 |
+| Turing | 좌 텍스트 / 우 성능 곡선 그래프 + 아래 5행 레일 |
+| Strengths (차별점) | 3열 대조표 + 지표 밴드 |
 | Timeline | 가로 스크롤 |
 | Press | 대표 1건 크게 + 나머지 리스트 |
 | CtaBand | 좌우 분할 카드 |

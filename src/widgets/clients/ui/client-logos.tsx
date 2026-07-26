@@ -10,9 +10,9 @@ export function ClientLogos() {
     <Section rhythm="default" id="clients">
       <Container>
         <div className="flex flex-col items-center gap-3 text-center">
-          <p className="text-sm font-semibold text-subtle">
-            대기업부터 공공기관까지, 직접 만들고 운영해 왔습니다
-          </p>
+          <h2 className="text-2xl leading-[1.2] tracking-[-0.025em] text-display sm:text-[2rem]">
+            고객사
+          </h2>
           <p className="font-mono text-xs text-faint">
             {coverage.fields.length}개 분야 · {coverage.segments.length}개 고객층
             · 누적 {references.length}건

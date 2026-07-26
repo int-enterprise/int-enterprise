@@ -7,6 +7,12 @@ export const company = {
   legalNameKoShort: "(주)인트",
   legalNameEn: "Int Corp.",
   brand: "int.",
+  /**
+   * 브랜드명의 뜻. int. = intelligent new technologies
+   * ⚠️ **전부 소문자다.** 대문자로 쓰지 않는다(int. 워드마크와 같은 결).
+   * ⚠️ 화면에 노출하는 자리는 **랜딩 히어로 한 곳뿐이다.** 푸터·하위 페이지로 퍼뜨리지 않는다.
+   */
+  brandMeaning: "intelligent new technologies",
   foundedAt: "2026.04.23",
   foundedYear: 2026,
   ceo: "박현규",
@@ -45,12 +51,16 @@ export function copyright(year: number = new Date().getUTCFullYear()) {
   return `© ${range} ${company.legalNameEn} All rights reserved.`;
 }
 
-/** 푸터·회사 페이지가 공유하는 법인 정보 항목. */
+/**
+ * 푸터에 적는 법인 정보.
+ *
+ * ⚠️ 국내 기업 사이트의 통상적인 표기만 남긴다 — 상호 · 대표 · 사업자등록번호 · 주소.
+ * **법인등록번호와 설립일은 넣지 않는다.** 등기 서류에나 쓰는 항목이라
+ * 홈페이지 푸터에 있으면 어색하다(값 자체는 위 `company`에 그대로 있다).
+ */
 export const corporateFacts = [
   { term: "상호", value: company.legalNameKo },
   { term: "대표", value: company.ceo },
-  { term: "설립", value: company.foundedAt },
   { term: "사업자등록번호", value: company.businessRegistrationNumber },
-  { term: "법인등록번호", value: company.corporateRegistrationNumber },
   { term: "주소", value: company.address.full },
 ] as const;

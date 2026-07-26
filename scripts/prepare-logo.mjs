@@ -18,7 +18,7 @@ const CHROME =
   process.env.CHROME_PATH ??
   "C:\\Program Files\\Google\\Chrome\\Application\\chrome.exe";
 
-const RAW = path.resolve("public/brand/int-logo-raw.png");
+const RAW = path.resolve("assets/raw/brand/int-logo-raw.png");
 const raw = fs.readFileSync(RAW).toString("base64");
 
 const browser = await puppeteer.launch({
