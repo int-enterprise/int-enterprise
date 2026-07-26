@@ -16,7 +16,6 @@ export const metadata = buildMetadata({
     "AI 운영",
     "AI 운영 자동화",
     "AI 성능열화",
-    "변화적응형 AI",
     "LLMOps",
     "AIOps",
     "AI 성능 모니터링",
