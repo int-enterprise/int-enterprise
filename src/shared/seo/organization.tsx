@@ -13,6 +13,7 @@ export function OrganizationJsonLd() {
       "인트",
       "Int",
       "intcorp",
+      company.brandMeaning,
     ],
     legalName: company.legalNameEn,
     url: siteConfig.url,

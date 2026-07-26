@@ -1,41 +1,46 @@
 import { buildMetadata, BreadcrumbJsonLd } from "@/shared/seo";
-import { PageHeader } from "@/widgets/page-header";
-import { LocationDetail } from "@/widgets/location";
+import { PageHero } from "@/widgets/page-hero";
+import { AboutNav } from "@/widgets/about-nav";
+import { LocationSection } from "@/widgets/company";
 
 export const metadata = buildMetadata({
   title: "오시는 길",
   description:
-    "(주)인트 본사 위치 안내. 서울특별시 마포구 서강대길 22 2층 6호. 카카오맵 경로 안내와 대중교통 정보를 함께 제공합니다.",
+    "(주)인트 사무실 위치와 연락처입니다. 서울 마포구 서강대길, 6호선 광흥창역에서 도보 6분.",
   path: "/about/location",
   keywords: [
-    "인트 본사",
-    "Int Corp 위치",
-    "마포구 AI 스타트업",
-    "(주)인트 주소",
+    "인트 오시는 길",
+    "인트 위치",
+    "인트 주소",
   ],
 });
 
+/**
+ * 기업소개 > 오시는 길.
+ *
+ * ⚠️ 기업소개의 네 항목은 **각각 독립된 페이지**다. 한 페이지에 앵커로 쌓지 않는다.
+ * 페이지를 더하거나 순서를 바꾸면 `shared/config`의 navItems.children도 함께 고친다.
+ */
 export default function LocationPage() {
   return (
     <>
       <BreadcrumbJsonLd
         items={[
           { name: "홈", url: "/" },
-          { name: "회사 소개", url: "/about" },
+          { name: "기업소개", url: "/about/greeting" },
           { name: "오시는 길", url: "/about/location" },
         ]}
       />
-      <PageHeader
-        breadcrumbs={[
-          { label: "회사 소개", href: "/about" },
+      <PageHero
+        crumbs={[
+          { label: "기업소개", href: "/about/greeting" },
           { label: "오시는 길" },
         ]}
-        eyebrow="Location"
-        image="location"
-        title="(주)인트 본사로 오시는 길."
-        description="서울 마포구에 위치한 본사로 오시는 길 안내입니다. 미팅이 필요하시면 언제든 방문해 주세요."
+        eyebrow="About"
+        title="오시는 길"
       />
-      <LocationDetail />
+      <AboutNav />
+      <LocationSection />
     </>
   );
 }

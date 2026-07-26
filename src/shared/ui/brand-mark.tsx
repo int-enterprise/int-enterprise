@@ -1,62 +1,55 @@
+import Image from "next/image";
 import { cn } from "@/shared/lib";
-import { siteConfig } from "@/shared/config";
-
-type MarkSize = "xs" | "sm" | "md" | "lg" | "xl" | "display";
 
 /**
- * tone:
- *  - "ink"   : 검정 배경 외 모든 곳. 글자=잉크, 도트=민트 (브랜드 가이드 기본형)
- *  - "mint"  : 검정 배경. 글자=민트, 도트=민트 (배경이 검은색이면 글자도 민트)
- *  - "white" : 검정 배경에서 보조 사용. 글자=흰색, 도트=민트
+ * int. 워드마크.
+ *
+ * ⚠️ 로고는 Pretendard가 아니라 별도 지오메트릭 워드마크다.
+ * (i의 점이 원형, t의 종단이 평평하다 — 본문 폰트로 흉내 낼 수 없다)
+ * 반드시 이 컴포넌트로만 표기하고, CSS로 글자를 그려 대신하지 않는다.
+ *
+ * 원본: public/brand/int-logo-raw.png
+ * 크롭/화이트 변환: scripts/prepare-logo.mjs
  */
-type Tone = "ink" | "mint" | "white";
+const RATIO = 2987 / 1629;
 
-interface BrandMarkProps {
-  label?: "int" | "turing";
-  size?: MarkSize;
-  tone?: Tone;
-  className?: string;
-  as?: React.ElementType;
-}
+type Size = "sm" | "md" | "lg" | "xl";
 
-const sizeMap: Record<MarkSize, string> = {
-  xs: "text-lg",
-  sm: "text-xl sm:text-2xl",
-  md: "text-2xl sm:text-3xl",
-  lg: "text-4xl sm:text-5xl",
-  xl: "text-5xl sm:text-6xl lg:text-7xl",
-  display: "text-6xl sm:text-7xl lg:text-8xl",
-};
-
-const toneText: Record<Tone, string> = {
-  ink: "text-ink",
-  mint: "text-mint",
-  white: "text-white",
+/** 로고의 높이(px). 폭은 비율로 계산한다. */
+const heights: Record<Size, number> = {
+  sm: 18,
+  md: 24,
+  lg: 34,
+  xl: 52,
 };
 
 export function BrandMark({
-  label = "int",
   size = "md",
   tone = "ink",
   className,
-  as: Comp = "span",
-}: BrandMarkProps) {
-  // 마침표는 Google 사이트 인증 메타태그의 존재 신호다.
-  // 토큰이 있으면(=메타태그 주입됨) "int.", 없으면 "int". 둘은 항상 함께 움직인다.
-  const verified = Boolean(siteConfig.googleSiteVerification);
+}: {
+  size?: Size;
+  /** 다크 배경에서는 "white" — 글자만 흰색으로 바뀌고 틸 점은 유지된다. */
+  tone?: "ink" | "white";
+  className?: string;
+}) {
+  const h = heights[size];
+  const w = Math.round(h * RATIO);
+  const src =
+    tone === "white" ? "/brand/int-logo-white.png" : "/brand/int-logo.png";
 
+  // ⚠️ 폭·높이를 둘 다 인라인으로 고정한다.
+  // `w-auto`로 두면 flex column(align-items: stretch) 안에서 컨테이너 폭까지 늘어나
+  // 워드마크가 가로로 찌그러진다(푸터에서 실제로 그랬다).
   return (
-    <Comp
-      className={cn(
-        "brand-mark",
-        sizeMap[size],
-        toneText[tone],
-        className
-      )}
-      aria-label={verified ? `${label}.` : label}
-    >
-      {label}
-      {verified ? <span className="brand-dot">.</span> : null}
-    </Comp>
+    <Image
+      src={src}
+      alt="int."
+      width={w}
+      height={h}
+      priority
+      className={cn("max-w-none shrink-0 select-none", className)}
+      style={{ width: w, height: h }}
+    />
   );
 }

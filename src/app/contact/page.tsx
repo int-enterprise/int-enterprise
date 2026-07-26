@@ -1,22 +1,33 @@
 import { buildMetadata, BreadcrumbJsonLd } from "@/shared/seo";
-import { PageHeader } from "@/widgets/page-header";
-import { ContactPage } from "@/widgets/contact";
+import { PageHero } from "@/widgets/page-hero";
+import { ContactDetail } from "@/widgets/contact";
+import { LocationSection } from "@/widgets/company";
 
 export const metadata = buildMetadata({
   title: "문의하기",
   description:
-    "(주)인트에 도입·PoC·파트너십·취재 등 어떤 문의든 보내주세요. 영업일 기준 1–2일 안에 답신드립니다. info@intcorp.ai",
+    "AI 구축, turing. 도입, 파트너십, 채용, 취재 문의를 받습니다.",
   path: "/contact",
   keywords: [
-    "Int Corp 문의",
     "(주)인트 문의",
-    "AI 운영 도입 문의",
-    "intcorp.ai 문의",
-    "AI 솔루션 PoC",
+    "인트 연락처",
+    "AI 도입 문의",
+    "AI 구축 문의",
+    "turing 도입 문의",
   ],
 });
 
-export default function ContactRoute() {
+/** `?type=`으로 넘어온 값만 문의 유형으로 인정한다(임의 값 방어). */
+const TOPICS = ["product", "partnership", "recruit", "press", "etc"] as const;
+
+export default async function ContactPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ type?: string }>;
+}) {
+  const { type } = await searchParams;
+  const defaultTopic = TOPICS.find((t) => t === type);
+
   return (
     <>
       <BreadcrumbJsonLd
@@ -25,19 +36,13 @@ export default function ContactRoute() {
           { name: "문의하기", url: "/contact" },
         ]}
       />
-      <PageHeader
+      <PageHero
+        crumbs={[{ label: "문의하기" }]}
         eyebrow="Contact"
-        image="contact"
-        title={
-          <>
-            서비스를 도입하고 싶거나,
-            <br />
-            <span className="text-mint-deep">한 번 이야기해 보고 싶으신가요?</span>
-          </>
-        }
-        description="제품 도입, PoC, 파트너십, 취재 등 어떤 문의든 환영합니다. 영업일 기준 1–2일 안에 답신드립니다."
+        title="문의하기"
       />
-      <ContactPage />
+      <ContactDetail defaultTopic={defaultTopic} />
+      <LocationSection />
     </>
   );
 }

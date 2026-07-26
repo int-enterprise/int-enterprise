@@ -1,34 +1,41 @@
 # widgets/ — 페이지 단위 큰 블록
 
-각 widget은 자기 섹션 안의 레이아웃·카피·보조 컴포넌트를 가진다. 라우트가 widget들을 조립한다.
+각 widget은 자기 섹션의 레이아웃·카피 조판을 가진다. 라우트가 widget들을 조립한다.
 
 ## 슬라이스 목록
 
 ### 글로벌 크롬
-- `header/` — sticky·솔리드 배경 헤더. 라우트 기반 네비, 회사소개 드롭다운, 모바일 햄버거.
-- `footer/` — 사이트맵·법적 정보·카피라이트.
+- `header/` — sticky 헤더. 라우트 기반 활성 표시, 모바일 전체화면 메뉴.
+- `footer/` — 사이트맵·법인 정보·카피라이트.
+- `page-hero/` — 하위 페이지 공통 상단(브레드크럼/eyebrow/타이틀/설명/aside).
 
-### 랜딩 (`/`)
-- `hero/` — 메인 비주얼 + 핵심 카피 + 2개 CTA.
-- `brand-intro/` — About / Product / Clients 3카드 티저.
-- `product/` → `ProductTeaser` — 다크 섹션 제품 티저.
-- `clients/` → `ClientsStrip` — 마퀴 2줄(고객사·파트너).
-- `cta-strip/` — 페이지 어디서나 끝에 붙이는 다크 CTA 블록.
+### 랜딩 (`/`) — 담백하게
+랜딩은 **슬로건 하나와 두 사업(BM)만** 짚는다. 제품 상세를 여기로 끌어오지 않는다.
+성능열화 6개 축·5개 Agent 루프·수행 과제 목록이 랜딩에 있으면 사업이 두 개인 회사를 잘못 그린 것이다.
 
-### 회사 소개 트리
-- `page-header/` — 모든 서브 페이지 상단 헤더(라벨/타이틀/설명/브레드크럼).
-- `about/` → `AboutOverview` — `/about` 본문(회사 개요 + 메타 카드 + 하위 탭 카드).
-- `history/` — `/about/history` 연혁 타임라인.
-- `location/` → `LocationDetail` — `/about/location` Kakao Maps + 연락처.
-- `ceo-profile/` — `/about/ceo` 대표 프로필 (모노그램 placeholder).
-- `careers/` — `/about/careers` 채용 안내 (현재 외부 채용 사이트 없음, 메일 지원).
+1. `hero/` — 슬로건 + 회사의 한 줄 정의 + 버튼 두 개(도입 문의 / 인재채용). 우측 3D.
+2. `products/` → `ProductDuo` — 두 BM(buildAI. / turing.)을 나란히. 주력(turing.)만 톤을 올린다.
+3. `logo-wall/` → `LogoWall` — 주요 고객사 및 파트너. 고객사·파트너를 **한 구간에 합쳐** 보여 준다
+   (일부 로고는 관계가 확인되지 않아 "고객사"로 단정할 수 없다). 로고 없는 파트너는 아래 한 줄로.
+4. `press/` — 언론 보도. 데이터가 없으면 **섹션 자체를 렌더하지 않는다.**
+5. `cta/` → `FinalCta` — 페이지 끝 전환 구간.
 
-### 제품/관계
-- `product/` → `ProductPage` — `/turing` 제품 페이지.
-- `clients/` → `ClientsPage` — `/clients` 전체 고객사 그리드.
-- `partners/` — `/partners` 관계사(운영사·기술·학술·공공).
-- `insights/` — `/insights` 기사·보도자료.
-- `contact/` → `ContactPage` — `/contact` 문의 폼 + 연락 채널.
+`clients/` → `ClientLogos`(고객사만 + 수행 과제 집계 캡션)는 제품 페이지에서 쓴다.
+
+### 하위 페이지
+- `products/` → `ProductDuo` — `/products` (탭 랜딩)
+- `offerings/` + `work/` + `clients/` + `strengths/` — `/products/buildai`
+- `decay/` + `turing/` — `/products/turing`
+- `company/` → `GreetingSection` `Timeline` `TeamSection` `LocationSection` — `/about`
+  (파트너십은 랜딩의 `LogoWall`이 맡는다 — `PartnersSection`은 없앴다)
+- `careers/` → `CareersDetail` — `/careers`
+- `press/` → `PressList` — `/press`
+- `contact/` → `ContactDetail` — `/contact`
+- `legal/` → `LegalDoc` — `/privacy` `/terms` `/delete-account` 공통 조판
+
+### 서강대 언급은 한 곳뿐
+`company/ui/team-section.tsx`의 설명 한 문장에서만 서강대학교 연구실 출발을 말한다.
+히어로·고지 바·보도 섹션·메타데이터로 이 서사를 옮겨 쓰지 않는다.
 
 ## 규칙
 - widget은 다른 widget을 import 하지 않는다(수평 격리). 조립은 `app/`에서.
@@ -36,6 +43,28 @@
 - 외부 노출은 슬라이스마다 `index.ts` 한 줄로.
 - 데이터는 `entities/`에서, 폼·맵 같은 인터랙션은 `features/`에서 import.
 - 한 파일 200줄 이내.
+
+## 레이아웃 규약 — "같은 섹션을 반복하지 않는다"
+템플릿처럼 보이는 가장 큰 원인은 **모든 섹션이 `eyebrow → 제목 → 3카드 그리드`로 똑같은 것**이다.
+새 섹션을 추가할 때는 옆 섹션과 다른 구조를 고른다.
+
+현재 페이지가 쓰고 있는 구조:
+| 섹션 | 구조 |
+|---|---|
+| Hero | 좌 텍스트 / 우 색인 목록 (비대칭) |
+| ClientWall | 테두리 격자 (표) |
+| Offerings | 3행 목록, 주력 행만 배경 반전 |
+| BuildProcess | 넓은 사진 띠 + 4단 가로 레일 |
+| BuildScope | 아이콘 행 2단(분야 6 / 고객 유형 4) |
+| Problem (decay) | 아이콘 + 한 줄 3열 |
+| Turing | 좌 텍스트 / 우 성능 곡선 그래프 + 아래 5행 레일 |
+| Strengths (차별점) | 3열 대조표 + 지표 밴드 |
+| Timeline | 가로 스크롤 |
+| Press | 대표 1건 크게 + 나머지 리스트 |
+| CtaBand | 좌우 분할 카드 |
+
+- 아이콘을 원형 배경에 넣은 카드는 쓰지 않는다. 위계는 활자와 여백으로 만든다.
+- 모션은 이유가 있을 때만 넣는다(루프=순환, 마퀴=다수, 파동=감지).
 
 ## 슬라이스 표준 구조
 ```

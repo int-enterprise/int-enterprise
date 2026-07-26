@@ -1,5 +1,5 @@
 import { buildMetadata, BreadcrumbJsonLd } from "@/shared/seo";
-import { PageHeader } from "@/widgets/page-header";
+import { PageHero } from "@/widgets/page-hero";
 import { LegalDoc, type LegalSection } from "@/widgets/legal";
 import { company } from "@/entities/company";
 
@@ -104,7 +104,8 @@ export default function PrivacyPage() {
           { name: "개인정보처리방침", url: "/privacy" },
         ]}
       />
-      <PageHeader
+      <PageHero
+        crumbs={[{ label: "개인정보처리방침" }]}
         eyebrow="Legal"
         title="개인정보처리방침"
         description="(주)인트는 정보주체의 권리와 자유를 존중하며, 「개인정보 보호법」 및 관계 법령을 준수합니다."

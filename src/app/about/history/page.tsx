@@ -1,38 +1,46 @@
 import { buildMetadata, BreadcrumbJsonLd } from "@/shared/seo";
-import { PageHeader } from "@/widgets/page-header";
-import { History } from "@/widgets/history";
-import { CtaStrip } from "@/widgets/cta-strip";
+import { PageHero } from "@/widgets/page-hero";
+import { AboutNav } from "@/widgets/about-nav";
+import { Timeline } from "@/widgets/company";
 
 export const metadata = buildMetadata({
-  title: "연혁",
+  title: "기업연혁",
   description:
-    "(주)인트의 발자취. 법인 설립부터 turing. 베타 공개까지, Int Corp.가 걸어온 길과 앞으로의 방향을 안내합니다.",
+    "(주)인트의 설립과 주요 연혁입니다.",
   path: "/about/history",
-  keywords: ["인트 연혁", "Int Corp history", "(주)인트 설립", "TIPS 인트"],
+  keywords: [
+    "인트 연혁",
+    "(주)인트 설립",
+    "인트 기업연혁",
+  ],
 });
 
+/**
+ * 기업소개 > 기업연혁.
+ *
+ * ⚠️ 기업소개의 네 항목은 **각각 독립된 페이지**다. 한 페이지에 앵커로 쌓지 않는다.
+ * 페이지를 더하거나 순서를 바꾸면 `shared/config`의 navItems.children도 함께 고친다.
+ */
 export default function HistoryPage() {
   return (
     <>
       <BreadcrumbJsonLd
         items={[
           { name: "홈", url: "/" },
-          { name: "회사 소개", url: "/about" },
-          { name: "연혁", url: "/about/history" },
+          { name: "기업소개", url: "/about/greeting" },
+          { name: "기업연혁", url: "/about/history" },
         ]}
       />
-      <PageHeader
-        breadcrumbs={[
-          { label: "회사 소개", href: "/about" },
-          { label: "연혁" },
+      <PageHero
+        crumbs={[
+          { label: "기업소개", href: "/about/greeting" },
+          { label: "기업연혁" },
         ]}
-        eyebrow="History"
-        image="history"
-        title="Int Corp.의 발자취"
-        description="(주)인트가 어떻게 시작되었고, 앞으로 어디로 향하는지. 차례로 업데이트되는 마일스톤입니다."
+        eyebrow="About"
+        title="기업연혁"
       />
-      <History />
-      <CtaStrip />
+      <AboutNav />
+      <Timeline />
     </>
   );
 }

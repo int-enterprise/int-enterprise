@@ -1,11 +1,22 @@
+/**
+ * 법인 등기·사업자등록 기준의 사실 정보. 마케팅 카피를 여기에 섞지 않는다.
+ * 값이 바뀌면 JSON-LD(Organization)와 푸터가 동시에 따라온다.
+ */
 export const company = {
   legalNameKo: "주식회사 인트",
   legalNameKoShort: "(주)인트",
   legalNameEn: "Int Corp.",
   brand: "int.",
+  /**
+   * 브랜드명의 뜻. int. = intelligent new technologies
+   * ⚠️ **전부 소문자다.** 대문자로 쓰지 않는다(int. 워드마크와 같은 결).
+   * ⚠️ 화면에 노출하는 자리는 **랜딩 히어로 한 곳뿐이다.** 푸터·하위 페이지로 퍼뜨리지 않는다.
+   */
+  brandMeaning: "intelligent new technologies",
   foundedAt: "2026.04.23",
   foundedYear: 2026,
   ceo: "박현규",
+  ceoNameEn: "Park Hyungyu",
   ceoTitle: "Founder & CEO",
   businessRegistrationNumber: "158-88-03793",
   corporateRegistrationNumber: "1101110-956986",
@@ -14,7 +25,10 @@ export const company = {
     line1: "서울특별시 마포구 서강대길 22",
     line2: "2층 6호",
     postalCode: "04107",
-    naverMapQuery: "서울특별시 마포구 서강대길 22",
+    lat: 37.5505,
+    lng: 126.9408,
+    kakaoMapLink:
+      "https://map.kakao.com/link/search/서울특별시 마포구 서강대길 22",
     naverMapLink:
       "https://map.naver.com/p/search/%EC%84%9C%EA%B0%95%EB%8C%80%EA%B8%B8%2022",
   },
@@ -22,19 +36,31 @@ export const company = {
     phone: "0507-1336-0775",
     email: "info@intcorp.ai",
   },
-  tagline: "변화에 적응하는 기업용 AI",
-  description:
-    "변화하는 환경에서도 안정적으로 작동하는 기업용 AI 운영의 표준을 만들어 가는 회사입니다.",
-  social: {
-    linkedin: "",
-    github: "",
-  },
+  transit: [
+    { line: "6호선", station: "광흥창역", detail: "도보 6분" },
+    { line: "경의중앙선", station: "서강대역", detail: "도보 9분" },
+  ],
 } as const;
 
 export type Company = typeof company;
 
 export function copyright(year: number = new Date().getUTCFullYear()) {
-  const startYear = company.foundedYear;
-  const range = year > startYear ? `${startYear}–${year}` : `${startYear}`;
-  return `© ${range} ${company.legalNameEn}. All rights reserved.`;
+  const start = company.foundedYear;
+  const range = year > start ? `${start}–${year}` : `${start}`;
+  // legalNameEn이 이미 "Int Corp."로 마침표를 포함한다. 마침표를 덧붙이지 않는다.
+  return `© ${range} ${company.legalNameEn} All rights reserved.`;
 }
+
+/**
+ * 푸터에 적는 법인 정보.
+ *
+ * ⚠️ 국내 기업 사이트의 통상적인 표기만 남긴다 — 상호 · 대표 · 사업자등록번호 · 주소.
+ * **법인등록번호와 설립일은 넣지 않는다.** 등기 서류에나 쓰는 항목이라
+ * 홈페이지 푸터에 있으면 어색하다(값 자체는 위 `company`에 그대로 있다).
+ */
+export const corporateFacts = [
+  { term: "상호", value: company.legalNameKo },
+  { term: "대표", value: company.ceo },
+  { term: "사업자등록번호", value: company.businessRegistrationNumber },
+  { term: "주소", value: company.address.full },
+] as const;

@@ -1,68 +1,82 @@
 import Link from "next/link";
-import { ArrowDownRight, Sparkles } from "lucide-react";
-import { Badge, BrandMark, Button } from "@/shared/ui";
-import { images } from "@/shared/assets/images";
+import { ArrowRight } from "lucide-react";
+import { BrandMark, Blob, Button, Container } from "@/shared/ui";
+import { company } from "@/entities/company";
+import { HeroScene } from "./hero-scene";
 
+/**
+ * 히어로 — 좌(워드마크 + 브랜드 뜻) / 중앙(3D) / 우(슬로건 + 버튼) 3열.
+ *
+ * ⚠️ 텍스트 좌 / 3D 우의 2열로 바꿨다가 되돌렸다. 이 3열이 확정된 구성이다.
+ * DOM 순서가 그대로 좌→중앙→우 열에 대응하므로 모바일에서도 읽는 순서가 유지된다.
+ *
+ * 브랜드 풀네임(intelligent new technologies)이 나오는 자리는 **여기 한 곳뿐이다.**
+ *
+ * ⚠️ 섹션에 overflow-hidden을 걸지 않는다. 걸면 블롭이 경계에서 직선으로 잘린다.
+ * ⚠️ 첫 섹션이므로 블롭에 음수 top을 주지 않는다(main 위쪽에서 잘린다).
+ */
 export function Hero() {
   return (
-    <section className="relative isolate overflow-hidden bg-background pt-16 pb-20 sm:pt-24 sm:pb-28">
-      <div className="relative mx-auto w-full max-w-6xl px-5 sm:px-8">
-        <div className="grid items-center gap-12 lg:grid-cols-[1.15fr_1fr]">
-          <div className="flex flex-col gap-7 sm:gap-9">
-            <Badge variant="mint" className="self-start">
-              <Sparkles className="h-3.5 w-3.5" />
-              변화에 적응하는 기업용 AI
-            </Badge>
+    <section className="relative">
+      {/* 3D 뒤에 깔리는 옅은 광원. 배경을 채우지는 않는다. */}
+      <Blob
+        color="mix"
+        size={560}
+        className="left-1/2 top-[80px] -translate-x-1/2 opacity-70"
+      />
+      <Blob
+        color="teal"
+        size={360}
+        className="bottom-[40px] left-1/2 -translate-x-[70%] opacity-50"
+        delay={5}
+      />
 
-            <h1 className="text-[2rem] font-semibold leading-[1.1] tracking-[-0.025em] text-ink sm:text-6xl lg:text-7xl">
-              AI는 만드는 것이 아니라,
-              <br />
-              <span className="text-muted">운영하는 것</span>입니다
-              <span
-                aria-hidden
-                className="ml-2 inline-block h-3 w-3 translate-y-[-4px] rounded-full bg-mint sm:h-4 sm:w-4 lg:h-5 lg:w-5"
-              />
-            </h1>
-
-            <p className="max-w-xl text-base leading-relaxed text-muted-strong sm:text-lg">
-              (주)인트는 기업의 AI가 변하는 환경 속에서도 일정한 품질로 일할 수 있도록,
-              AI 운영의 처음부터 끝까지를 함께 책임지는 솔루션{" "}
-              <BrandMark size="xs" label="turing" />을 만듭니다.
+      <Container
+        width="bleed"
+        className="grid items-center gap-y-10 py-20 sm:py-24 lg:grid-cols-[minmax(0,1fr)_minmax(320px,480px)_minmax(0,1fr)] lg:gap-x-10 lg:py-[120px]"
+      >
+        {/* 좌 — 워드마크와 브랜드의 뜻 */}
+        <div className="flex flex-col items-start gap-5">
+          <BrandMark size="xl" />
+          <div className="flex flex-col gap-2">
+            <p className="text-lg font-light tracking-[-0.01em] text-faint">
+              {company.brandMeaning}
             </p>
-
-            <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Button asChild size="lg" variant="primary">
-                <Link href="/contact">
-                  도입 문의하기
-                  <ArrowDownRight className="h-5 w-5" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href="/turing">제품 자세히 보기</Link>
-              </Button>
-            </div>
-          </div>
-
-          <div className="relative hidden aspect-[4/5] w-full overflow-hidden rounded-[28px] bg-surface lg:block">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={images.hero.src}
-              alt={images.hero.alt}
-              loading="eager"
-              fetchPriority="high"
-              decoding="async"
-              className="absolute inset-0 h-full w-full object-cover"
-            />
-            <div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-t from-black/30 to-transparent" />
-            <div className="absolute bottom-6 left-6 right-6 flex items-end justify-between gap-3 text-white">
-              <BrandMark size="lg" tone="white" />
-              <span className="rounded-full bg-white/15 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.18em] backdrop-blur">
-                Enterprise AI Ops
-              </span>
-            </div>
+            <p className="text-lg font-semibold text-display">
+              지능적인 새 기술로 기업의 일을 바꿉니다
+            </p>
           </div>
         </div>
-      </div>
+
+        {/* 중앙 — 이 화면의 시각 요소 */}
+        <HeroScene className="mx-auto aspect-square w-full max-w-[340px] sm:max-w-[420px] lg:max-w-none" />
+
+        {/* 우 — 슬로건과 진입점 */}
+        <div className="flex flex-col items-start gap-7">
+          <h1 className="text-[2.4rem] font-bold leading-[1.12] tracking-[-0.035em] text-display sm:text-[3rem] lg:text-[3.4rem]">
+            변화에 적응하는
+            <br />
+            기업용 AI
+          </h1>
+
+          <p className="max-w-[38ch] text-lg font-light leading-[1.75] text-body">
+            기업용 AI를 직접 설계해 만들고, 그 AI가 시간이 지나도 제 성능을 내게
+            합니다. 만드는 일과 만든 뒤를 지키는 일을 한 팀이 합니다.
+          </p>
+
+          <div className="flex flex-wrap items-center gap-3 pt-1">
+            <Button asChild size="lg">
+              <Link href="/contact">
+                도입 문의
+                <ArrowRight className="h-4 w-4" aria-hidden />
+              </Link>
+            </Button>
+            <Button asChild size="lg" variant="outline">
+              <Link href="/careers">인재채용</Link>
+            </Button>
+          </div>
+        </div>
+      </Container>
     </section>
   );
 }

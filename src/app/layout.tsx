@@ -64,6 +64,7 @@ export const metadata: Metadata = {
     },
   },
   category: "technology",
+  // Google Search Console 사이트 인증. siteConfig가 단일 진실 공급원이다.
   verification: siteConfig.googleSiteVerification
     ? { google: siteConfig.googleSiteVerification }
     : undefined,
@@ -72,7 +73,7 @@ export const metadata: Metadata = {
 export const viewport: Viewport = {
   themeColor: [
     { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+    { media: "(prefers-color-scheme: dark)", color: "#04044a" },
   ],
   width: "device-width",
   initialScale: 1,
@@ -83,16 +84,21 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="ko"
-      className={`${pretendard.variable} h-full antialiased`}
-    >
-      <body className="min-h-full flex flex-col bg-background text-ink font-sans">
+    <html lang="ko" className={`${pretendard.variable} h-full`}>
+      <body className="flex min-h-full flex-col bg-canvas font-sans antialiased">
         <OrganizationJsonLd />
         <WebSiteJsonLd />
+        <a
+          href="#main"
+          className="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-[60] focus:rounded-pill focus:bg-primary focus:px-5 focus:py-3 focus:text-base focus:font-medium focus:text-gray-0"
+        >
+          본문으로 건너뛰기
+        </a>
         <QueryProvider>
           <Header />
-          <main className="flex flex-1 flex-col">{children}</main>
+          <main id="main" className="flex flex-1 flex-col">
+            {children}
+          </main>
           <Footer />
         </QueryProvider>
       </body>

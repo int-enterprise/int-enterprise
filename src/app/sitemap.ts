@@ -1,20 +1,32 @@
 import type { MetadataRoute } from "next";
 import { siteConfig } from "@/shared/config";
 
-const routes: { path: string; priority: number; changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"] }[] = [
+type Entry = {
+  path: string;
+  priority: number;
+  changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"];
+};
+
+/**
+ * 실제로 존재하는 라우트만 넣는다.
+ * 구 IA에서 사라진 주소는 next.config.ts의 redirects가 처리한다.
+ */
+const routes: Entry[] = [
   { path: "/", priority: 1.0, changeFrequency: "weekly" },
-  { path: "/about", priority: 0.9, changeFrequency: "monthly" },
-  { path: "/about/history", priority: 0.7, changeFrequency: "yearly" },
-  { path: "/about/location", priority: 0.7, changeFrequency: "yearly" },
-  { path: "/about/ceo", priority: 0.7, changeFrequency: "yearly" },
-  { path: "/about/careers", priority: 0.8, changeFrequency: "monthly" },
-  { path: "/turing", priority: 0.95, changeFrequency: "weekly" },
-  { path: "/clients", priority: 0.8, changeFrequency: "monthly" },
-  { path: "/partners", priority: 0.7, changeFrequency: "monthly" },
-  { path: "/insights", priority: 0.8, changeFrequency: "weekly" },
+  { path: "/products", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/products/buildai", priority: 0.95, changeFrequency: "monthly" },
+  { path: "/products/turing", priority: 0.95, changeFrequency: "monthly" },
+  { path: "/about/greeting", priority: 0.9, changeFrequency: "monthly" },
+  { path: "/about/history", priority: 0.7, changeFrequency: "monthly" },
+  { path: "/about/team", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/about/location", priority: 0.6, changeFrequency: "yearly" },
+  { path: "/press", priority: 0.85, changeFrequency: "weekly" },
+  { path: "/careers", priority: 0.8, changeFrequency: "monthly" },
+  { path: "/careers/jobs", priority: 0.7, changeFrequency: "weekly" },
   { path: "/contact", priority: 0.6, changeFrequency: "yearly" },
   { path: "/privacy", priority: 0.3, changeFrequency: "yearly" },
   { path: "/terms", priority: 0.3, changeFrequency: "yearly" },
+  { path: "/delete-account", priority: 0.3, changeFrequency: "yearly" },
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

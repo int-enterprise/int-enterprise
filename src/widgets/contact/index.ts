@@ -1,2 +1,1 @@
-export { ContactPage } from "./ui/contact-page";
-export { ContactInline } from "./ui/contact-inline";
+export { ContactDetail } from "./ui/contact-detail";
