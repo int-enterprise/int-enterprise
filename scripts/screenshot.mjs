@@ -8,7 +8,10 @@
  *   node scripts/screenshot.mjs '[{"name":"fold","url":"http://localhost:3000"}]'
  *   node scripts/screenshot.mjs '[{"name":"all","url":"http://localhost:3000","full":true}]'
  *
- * 옵션: w/h(뷰포트) · full(전체 페이지) · clip{x,y,width,height} · wait(ms)
+ * 옵션: w/h(뷰포트) · full(전체 페이지) · clip{x,y,width,height} · wait(ms) · scroll(px)
+ *
+ * `scroll`은 히어로처럼 **스크롤에 따라 변하는 구간**을 확인할 때 쓴다.
+ * 촬영 직전 그 위치로 내려가서 찍는다(핀이 걸린 상태를 봐야 하기 때문).
  *
  * ⚠️ lazy 이미지를 강제로 로드시킨 뒤 촬영한다.
  *    이 처리가 없으면 화면 밖 이미지가 빈 박스로 찍혀 멀쩡한 레이아웃을 버그로 오진한다.
@@ -94,6 +97,12 @@ for (const t of targets) {
         .map((i) => new Promise((r) => (i.onload = i.onerror = r)))
     )
   );
+
+  if (t.scroll) {
+    await page.evaluate((y) => window.scrollTo(0, y), t.scroll);
+    // 스크롤 구동 애니메이션(3D lerp)이 목표값에 닿을 시간을 준다
+    await new Promise((r) => setTimeout(r, 1200));
+  }
 
   await new Promise((r) => setTimeout(r, t.wait ?? 1500));
 
