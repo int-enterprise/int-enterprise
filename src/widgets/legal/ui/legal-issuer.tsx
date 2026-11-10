@@ -33,7 +33,7 @@ export function LegalIssuer({
   effectiveDate: string;
 }) {
   return (
-    <footer>
+    <footer className={word.sign}>
       {/* 원본: 마지막 조항 뒤 빈 단락 3줄, 문구·날짜 사이 2줄, 날짜·표 사이 2줄 */}
       <div className={word.blankLine12} />
       <div className={word.blankLine12} />
@@ -44,11 +44,14 @@ export function LegalIssuer({
       <p className={word.closing}>{effectiveDate}</p>
       <div className={word.blankLine12} />
       <div className={word.blankLine12} />
-      {/* Word 표 열 비율 796 : 3740 : 4490 (twip), 행 간격 없음, 테두리 없음 */}
-      <dl className={`grid grid-cols-[8.8%_41.4%_49.8%] ${word.sign}`}>
+      {/* 데스크톱: Word 표 열 비율 796 : 3740 : 4490 (twip), 행 간격·테두리 없음.
+          모바일: 첫 열을 숨기고 "라벨 : 값" 2열로. */}
+      <dl className="grid grid-cols-[auto_1fr] gap-x-[0.6em] sm:grid-cols-[8.8%_41.4%_49.8%] sm:gap-x-0">
         {rows.map((r, i) => (
           <div key={r.label} className="contents">
-            <span>{i === 0 ? "( 회사 )" : ""}</span>
+            <span className="hidden sm:block">
+              {i === 0 ? "( 회사 )" : ""}
+            </span>
             <dt>
               <SpreadLabel text={r.label} />
             </dt>
