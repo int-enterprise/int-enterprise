@@ -11,8 +11,8 @@
  * - 하단(12pt) 빈 줄 = 1.42em
  */
 export const word = {
-  body: "text-[12px] sm:text-[11pt] leading-[1.42] text-gray-100",
-  title: "text-center text-[18px] sm:text-[20pt] font-bold leading-[1.42]",
+  body: "text-[13px] sm:text-[11pt] leading-[1.42] text-gray-100",
+  title: "text-center text-[20px] sm:text-[20pt] font-bold leading-[1.42]",
   heading: "text-justify font-bold",
   /** 빈 단락(10pt, 간격 없음) 한 줄 높이 */
   blankLine: "h-[1.29em]",
@@ -21,7 +21,7 @@ export const word = {
   item: "relative pl-[4.82em] text-justify",
   itemNo: "absolute left-[3.18em]",
   /** 하단 서명 영역(Word 12pt). 간격 없음 스타일은 글자 단위 줄바꿈(wordWrap=0) */
-  sign: "text-[13px] sm:text-[12pt] leading-[1.42] [word-break:normal]",
+  sign: "text-[14px] sm:text-[12pt] leading-[1.42] [word-break:normal]",
   /** 하단 서명 영역의 빈 단락(12pt) 한 줄 높이 */
   blankLine12: "h-[1.42em]",
   closing: "text-center font-bold",
