@@ -1,76 +1,55 @@
-import { Container } from "@/shared/ui";
+import type { LegalSection } from "../model/types";
+import { LegalArticle } from "./legal-article";
+import { LegalIssuer } from "./legal-issuer";
+import { word } from "./word-styles";
+import { AutoSpace } from "./autospace";
 
-export interface LegalSection {
-  heading: string;
-  bodies?: readonly string[];
-  items?: readonly string[];
+interface LegalDocProps {
+  title: string;
+  preamble?: string;
+  /** 하단 시행 문구. 예: "본 약관은 2026년 5월 1일부터 시행한다." */
+  closing: string;
+  effectiveDate: string;
+  sections: LegalSection[];
 }
 
 /**
- * 법적 고지 문서(개인정보처리방침·이용약관·계정 삭제 안내)의 공통 껍데기.
- * 본문은 각 라우트가 데이터로 넘긴다 — 이 컴포넌트는 조판만 책임진다.
- * 데이터 형태(heading/bodies/items)는 기존 문서와 동일하게 유지한다.
+ * Word 문서(A4, 좌우 여백 1인치 → 본문 폭 약 159mm)처럼 보이는 법률 문서.
+ * 단락 간격 없이 빈 줄로만 구분하고, 색·장식은 쓰지 않는다.
  */
 export function LegalDoc({
-  sections,
+  title,
+  preamble,
+  closing,
   effectiveDate,
-  footnote,
-}: {
-  sections: readonly LegalSection[];
-  effectiveDate?: string;
-  footnote?: React.ReactNode;
-}) {
+  sections,
+}: LegalDocProps) {
   return (
-    <section className="border-b border-line bg-canvas py-20 sm:py-24">
-      <Container>
-        <div className="flex max-w-3xl flex-col gap-12">
-          {effectiveDate ? (
-            <p className="text-sm text-faint">
-              시행일 {effectiveDate}
+    <section className="w-full bg-canvas">
+      <article
+        className={`mx-auto w-full max-w-[calc(159mm+2.5rem)] px-5 py-16 sm:py-24 ${word.body}`}
+      >
+        <h1 className={word.title}>
+          <AutoSpace text={title} />
+        </h1>
+        <div className={word.blankLine} />
+        <div className={word.blankLine} />
+        {preamble && (
+          <>
+            <p className={word.heading}>
+              <AutoSpace text={preamble} />
             </p>
-          ) : null}
-
-          {sections.map((section, i) => (
-            <section key={section.heading} className="flex flex-col gap-4">
-              <h2 className="flex items-baseline gap-3 text-lg text-heading sm:text-xl">
-                <span className="text-sm font-medium text-gray-40">
-                  {String(i + 1).padStart(2, "0")}
-                </span>
-                {section.heading}
-              </h2>
-
-              {section.bodies?.map((p) => (
-                <p key={p} className="text-base leading-[1.8] text-body">
-                  {p}
-                </p>
-              ))}
-
-              {section.items ? (
-                <ul className="flex flex-col gap-2 border-t border-line pt-4">
-                  {section.items.map((b) => (
-                    <li
-                      key={b}
-                      className="flex items-start gap-3 text-base leading-[1.75] text-gray-75"
-                    >
-                      <span
-                        aria-hidden
-                        className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-accent"
-                      />
-                      {b}
-                    </li>
-                  ))}
-                </ul>
-              ) : null}
-            </section>
-          ))}
-
-          {footnote ? (
-            <div className="rounded-lg bg-canvas-2 p-6 text-sm leading-[1.75] text-body">
-              {footnote}
-            </div>
-          ) : null}
-        </div>
-      </Container>
+            <div className={word.blankLine} />
+          </>
+        )}
+        {sections.map((s, idx) => (
+          <div key={s.heading}>
+            {idx > 0 && <div className={word.blankLine} />}
+            <LegalArticle index={idx + 1} section={s} />
+          </div>
+        ))}
+        <LegalIssuer closing={closing} effectiveDate={effectiveDate} />
+      </article>
     </section>
   );
 }

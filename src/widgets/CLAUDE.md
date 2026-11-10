@@ -33,7 +33,7 @@
 - `careers/` → `CareersDetail` — `/careers`
 - `press/` → `PressList` — `/press`
 - `contact/` → `ContactDetail` — `/contact`
-- `legal/` → `LegalDoc` — `/privacy` `/terms` `/delete-account` 공통 조판
+- `legal/` → `LegalDoc` — `/privacy` `/terms` 계약서(Word 간격 없음) 서식 조판 · `LegalNotice` — `/delete-account` 단순 고지
 
 ### 서강대 언급은 한 곳뿐
 `company/ui/team-section.tsx`의 설명 한 문장에서만 서강대학교 연구실 출발을 말한다.

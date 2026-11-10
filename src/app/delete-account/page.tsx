@@ -1,6 +1,6 @@
 import { buildMetadata, BreadcrumbJsonLd } from "@/shared/seo";
 import { PageHero } from "@/widgets/page-hero";
-import { LegalDoc, type LegalSection } from "@/widgets/legal";
+import { LegalNotice, type LegalNoticeSection } from "@/widgets/legal";
 import { company } from "@/entities/company";
 
 /**
@@ -16,7 +16,7 @@ export const metadata = buildMetadata({
   keywords: ["Donky Note 계정 삭제", "Donky Note account deletion"],
 });
 
-const sections: LegalSection[] = [
+const sections: LegalNoticeSection[] = [
   {
     heading: "앱 이름",
     bodies: ["Donky Note"],
@@ -68,7 +68,7 @@ export default function DeleteAccountPage() {
         title="Account Deletion Request"
         description="계정 삭제 요청 — Donky Note 앱을 이용 중인 사용자를 위한 안내입니다."
       />
-      <LegalDoc
+      <LegalNotice
         sections={sections}
         footnote={
           <>
